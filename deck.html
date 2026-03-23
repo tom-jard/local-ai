@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Local AI: Your Computer, Your Rules</title>
+<style>
+:root {
+    --black: #1d1d1f;
+    --gray-dark: #424245;
+    --gray: #6e6e73;
+    --gray-light: #86868b;
+    --silver: #f5f5f7;
+    --white: #fbfbfd;
+    --blue: #0071e3;
+    --green: #34c759;
+    --orange: #ff9500;
+    --red: #ff3b30;
+    --transition: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: var(--white);
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: var(--black);
+}
+
+.deck {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+/* --- Slide Base --- */
+.slide {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 80px 120px 60px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(40px);
+    transition: all 0.5s var(--transition);
+}
+.slide.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+    z-index: 2;
+}
+.slide.prev {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-40px);
+    z-index: 1;
+}
+
+/* Title slide and closing centered vertically */
+.slide.slide--center {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+/* --- Consistent Header Zone --- */
+.slide-header {
+    margin-bottom: 40px;
+    flex-shrink: 0;
+}
+.slide-label {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gray-light);
+    margin-bottom: 12px;
+}
+.slide-header h2 {
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.12;
+    color: var(--black);
+}
+.slide-header .subtitle {
+    font-size: 22px;
+    color: var(--gray);
+    font-weight: 400;
+    line-height: 1.5;
+    margin-top: 10px;
+}
+
+/* --- Typography --- */
+h1 {
+    font-size: 64px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.08;
+    color: var(--black);
+}
+h3 {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--black);
+}
+p, li {
+    font-size: 22px;
+    line-height: 1.5;
+    color: var(--gray-dark);
+}
+.accent { color: var(--blue); }
+.muted { color: var(--gray-light); }
+
+/* --- Stat typography --- */
+.stat-large {
+    font-size: 64px;
+    font-weight: 700;
+    color: var(--blue);
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+}
+.stat-context {
+    font-size: 20px;
+    color: var(--gray);
+    margin-top: 6px;
+    line-height: 1.4;
+}
+.source {
+    font-size: 14px;
+    color: var(--gray-light);
+    margin-top: 14px;
+}
+
+/* --- Builds --- */
+.build {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.45s var(--transition), transform 0.45s var(--transition);
+}
+.build.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- Slide content area --- */
+.slide-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+/* --- Content blocks --- */
+.content-block {
+    background: var(--silver);
+    border-radius: 16px;
+    padding: 28px 32px;
+}
+.icon-badge {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    flex-shrink: 0;
+}
+.icon-badge.blue { background: rgba(0,113,227,0.1); }
+.icon-badge.red { background: rgba(255,59,48,0.1); }
+.icon-badge.green { background: rgba(52,199,89,0.1); }
+.icon-badge.orange { background: rgba(255,149,0,0.1); }
+
+.highlight-box {
+    background: var(--silver);
+    border-radius: 12px;
+    padding: 20px 24px;
+    border-left: 4px solid var(--blue);
+    margin-top: 24px;
+}
+.highlight-box p {
+    font-size: 20px;
+    color: var(--gray-dark);
+    line-height: 1.5;
+}
+
+/* --- Icon + Content row (used for stat slides) --- */
+.icon-content-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+}
+.icon-content-row .icon-badge {
+    width: 64px;
+    height: 64px;
+    font-size: 32px;
+    border-radius: 16px;
+    margin-top: 2px;
+}
+
+/* --- AI logo bar --- */
+.ai-logos {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 56px;
+    margin-top: 0;
+}
+.ai-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    min-width: 160px;
+    text-align: center;
+}
+.ai-logo-mark {
+    width: 132px;
+    height: 132px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.ai-logo-mark img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+.ai-logo--claude .ai-logo-mark img {
+    width: 90%;
+    height: 90%;
+}
+.ai-logo--openclaw .ai-logo-mark {
+    width: 168px;
+    height: 116px;
+}
+.ai-logo span {
+    font-size: 21px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--gray-dark);
+}
+
+.slide--shared-ground .slide-body {
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+}
+
+/* --- Grid for Slide 2 --- */
+.use-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+.use-card {
+    background: var(--silver);
+    border-radius: 14px;
+    padding: 24px 20px;
+    text-align: center;
+    transition: transform 0.2s var(--transition);
+}
+.use-card .card-emoji {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+.use-card p {
+    font-size: 18px;
+    color: var(--gray-dark);
+    font-weight: 500;
+}
+
+/* --- Data center photo --- */
+.dc-photo {
+    width: 100%;
+    max-width: 720px;
+    height: 320px;
+    border-radius: 20px;
+    object-fit: cover;
+    object-position: center;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.12);
+}
+.dc-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.dc-bottom-stats {
+    margin-top: 20px;
+}
+.dc-stat-row {
+    display: flex;
+    gap: 40px;
+}
+.dc-stat-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 16px;
+}
+.dc-stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.dc-stat-num {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+.dc-stat-desc {
+    font-size: 15px;
+    color: var(--gray);
+    line-height: 1.3;
+}
+.dc-caption {
+    font-size: 20px;
+    color: var(--gray);
+    margin-top: 16px;
+    max-width: 720px;
+}
+
+/* --- Split comparison --- */
+.split-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+.split-card {
+    border-radius: 20px;
+    padding: 36px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+.split-card.dark {
+    background: var(--black);
+    color: white;
+}
+.split-card.dark h3,
+.split-card.dark p { color: white; }
+.split-card.light {
+    background: var(--silver);
+}
+.split-card .card-icon {
+    font-size: 32px;
+    margin-bottom: 2px;
+}
+.step-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+.step-num {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+.split-card.dark .step-num { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.8); }
+.split-card.light .step-num { background: rgba(0,113,227,0.1); color: var(--blue); }
+.step-text {
+    font-size: 19px;
+    line-height: 1.4;
+    color: var(--gray-dark);
+}
+.split-card.dark .step-text { color: rgba(255,255,255,0.75); }
+
+/* --- Power compare --- */
+.power-compare {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 780px;
+}
+.power-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.power-label {
+    width: 180px;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--gray-dark);
+    flex-shrink: 0;
+}
+.power-bar-track {
+    flex: 1;
+    height: 44px;
+    background: var(--silver);
+    border-radius: 12px;
+    overflow: hidden;
+}
+.power-bar {
+    height: 100%;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    padding: 0 18px;
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+    transition: width 0.6s var(--transition);
+}
+.power-bar.high {
+    background: linear-gradient(90deg, var(--red), #e0342a);
+    width: 100%;
+}
+.power-bar.low {
+    background: linear-gradient(90deg, var(--green), #2db84e);
+    width: 5%;
+    min-width: 130px;
+}
+.power-tagline {
+    font-size: 20px;
+    color: var(--gray);
+    margin-top: 8px;
+}
+
+/* --- Privacy lines --- */
+.privacy-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    max-width: 700px;
+}
+.privacy-line {
+    font-size: 30px;
+    font-weight: 500;
+    color: var(--black);
+    line-height: 1.3;
+    padding-left: 20px;
+    border-left: 3px solid var(--blue);
+}
+
+/* --- Two column --- */
+.two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+}
+
+/* --- Cloud vs local privacy --- */
+.privacy-col h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+.privacy-col .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.privacy-col .dot.red { background: var(--red); }
+.privacy-col .dot.green { background: var(--green); }
+.privacy-col ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.privacy-col li {
+    font-size: 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    color: var(--gray-dark);
+}
+.privacy-col li .bullet {
+    flex-shrink: 0;
+    margin-top: 6px;
+    font-size: 8px;
+}
+.local-lock-card {
+    background: var(--silver);
+    border-radius: 16px;
+    padding: 40px 32px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.local-lock-card .lock-icon {
+    font-size: 40px;
+    margin-bottom: 14px;
+}
+.local-lock-card .lock-text {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--black);
+}
+.local-lock-card .lock-sub {
+    font-size: 20px;
+    color: var(--gray);
+    margin-top: 6px;
+}
+
+/* --- Proof pills --- */
+.proof-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+.proof-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    border-radius: 100px;
+    padding: 10px 20px;
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--gray-dark);
+    border: 1px solid rgba(0,0,0,0.06);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.proof-pill .pill-icon {
+    font-size: 15px;
+    flex-shrink: 0;
+}
+
+/* --- Benefits list --- */
+.benefits-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+.benefits-list li {
+    font-size: 22px;
+    color: var(--gray-dark);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+.benefits-list .check {
+    color: var(--green);
+    font-size: 20px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+/* --- Terminal --- */
+.terminal {
+    background: #161622;
+    border-radius: 14px;
+    padding: 28px 32px;
+    font-family: 'SF Mono', 'Menlo', 'Consolas', monospace;
+    max-width: 600px;
+}
+.terminal .prompt {
+    color: var(--green);
+    font-size: 22px;
+    line-height: 1.6;
+}
+.terminal .cmd {
+    color: #e8e8ed;
+    font-size: 22px;
+    line-height: 1.6;
+}
+
+/* --- CTA row --- */
+.cta-row {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 640px;
+}
+
+/* --- QR section --- */
+.qr-section {
+    display: flex;
+    align-items: center;
+    gap: 56px;
+}
+.qr-box {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+    flex-shrink: 0;
+}
+.qr-info h3 {
+    font-size: 26px;
+    margin-bottom: 14px;
+}
+.qr-info p {
+    font-size: 20px;
+    color: var(--gray);
+    margin-bottom: 6px;
+}
+.qr-info .connect {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(0,0,0,0.06);
+}
+.qr-info .connect p {
+    font-size: 18px;
+    color: var(--gray-dark);
+}
+
+/* --- Closing --- */
+.closing-question {
+    font-size: 38px;
+    font-weight: 500;
+    color: var(--black);
+    line-height: 1.45;
+    max-width: 820px;
+}
+.closing-question em {
+    color: var(--blue);
+    font-style: normal;
+    font-weight: 600;
+}
+.closing-thanks {
+    font-size: 20px;
+    color: var(--gray-light);
+    margin-top: 44px;
+}
+
+/* --- Slide counter --- */
+.slide-counter {
+    position: fixed;
+    bottom: 24px;
+    right: 36px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gray-light);
+    z-index: 100;
+    letter-spacing: 0.03em;
+    font-variant-numeric: tabular-nums;
+}
+
+/* --- Progress bar --- */
+.progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: var(--blue);
+    z-index: 100;
+    transition: width 0.35s var(--transition);
+}
+
+/* --- Presenter notes (hidden) --- */
+aside.notes { display: none; }
+
+/* --- Responsive --- */
+@media (max-width: 1200px) {
+    .slide { padding: 60px 64px 48px; }
+    h1 { font-size: 48px; }
+    .slide-header h2 { font-size: 38px; }
+    .stat-large { font-size: 52px; }
+    .two-col, .split-compare, .use-grid { grid-template-columns: 1fr; }
+    .ai-logos { gap: 40px; }
+    .ai-logo-mark { width: 112px; height: 112px; }
+}
+@media (max-width: 900px) {
+    .slide { padding: 40px 32px 32px; }
+    h1 { font-size: 36px; }
+    .slide-header h2 { font-size: 30px; }
+    .stat-large { font-size: 40px; }
+    .privacy-line { font-size: 22px; }
+    .closing-question { font-size: 28px; }
+    .slide--shared-ground .slide-body { justify-content: center; }
+    .ai-logos { gap: 28px; }
+    .ai-logo { min-width: 120px; }
+    .ai-logo-mark { width: 88px; height: 88px; }
+    .ai-logo span { font-size: 18px; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress-bar" style="width: 0%;"></div>
+
+<div class="deck">
+
+<!-- ========== SLIDE 1: Title ========== -->
+<section class="slide slide--center active">
+    <div class="slide-label" style="margin-bottom: 20px;">PHED 117 &middot; Guest Lecture</div>
+    <h1>Local AI:<br>Your Computer, Your Rules</h1>
+    <p style="font-size: 24px; color: var(--gray); font-weight: 400; margin-top: 20px;">Thomas Jardine</p>
+    <p style="font-size: 18px; color: var(--gray-light); margin-top: 6px;">Strategy &amp; Operations &middot; Climate &amp; Clean Energy</p>
+    <aside class="notes">
+        Introduce yourself casually. "Hey everyone, I'm Thomas. I work at Apple in strategy and operations, but I'm here as a person, not a company rep. I built something I think you'll find interesting."
+        Let the room settle. Make eye contact. Don't rush.
+    </aside>
+</section>
+
+<!-- ========== SLIDE 2: AI in Your Daily Life ========== -->
+<section class="slide slide--shared-ground">
+    <div class="slide-header">
+        <div class="slide-label">Shared Ground</div>
+        <h2>AI is already part of how you live</h2>
+    </div>
+    <div class="slide-body">
+        <div class="ai-logos">
+            <div class="ai-logo ai-logo--chatgpt">
+                <div class="ai-logo-mark">
+                    <img src="images/logos/chatgpt.svg" alt="ChatGPT logo">
+                </div>
+                <span>ChatGPT</span>
+            </div>
+            <div class="ai-logo ai-logo--claude">
+                <div class="ai-logo-mark">
+                    <img src="images/logos/claude.svg" alt="Claude logo">
+                </div>
+                <span>Claude</span>
+            </div>
+            <div class="ai-logo ai-logo--gemini">
+                <div class="ai-logo-mark">
+                    <img src="images/logos/gemini.svg" alt="Gemini logo">
+                </div>
+                <span>Gemini</span>
+            </div>
+            <div class="ai-logo ai-logo--openclaw">
+                <div class="ai-logo-mark">
+                    <img src="images/logos/openclaw.png" alt="OpenClaw logo">
+                </div>
+                <span>OpenClaw</span>
+            </div>
+        </div>
+    </div>
+    <aside class="notes">
+        "How many of you used ChatGPT this week?" Pause, let hands go up.
+        "Yeah, me too. Every day. It's incredible. AI has become part of how we live."
+        Scan the room. "But there's something most people don't think about."
+    </aside>
+</section>
+
+<!-- ========== SLIDE 3: Where does it run? ========== -->
+<section class="slide">
+    <div class="slide-header">
+        <div class="slide-label">The Hidden Cost</div>
+        <h2>Where does it actually run?</h2>
+    </div>
+    <div class="slide-body">
+        <img src="images/datacenter.png" alt="Aerial photo of a massive hyperscale data center" class="dc-photo">
+        <p class="dc-caption">These buildings are hungry.</p>
+    </div>
+    <aside class="notes">
+        "Every time you ask ChatGPT a question, your words travel to a building like this. These are data centers."
+        Let the image sit. Don't rush past it.
+        "They're massive. They're industrial. And they're hungry."
+    </aside>
+</section>
+
+<!-- ========== SLIDE 4: The Water ========== -->
+<section class="slide">
+    <div class="slide-header">
+        <div class="slide-label">The Hidden Cost</div>
+        <h2>The Water</h2>
+    </div>
+    <div class="slide-body">
+        <div class="icon-content-row">
+            <div class="icon-badge blue">&#x1F4A7;</div>
+            <div>
+                <div class="stat-large">6.4 billion liters</div>
+                <p class="stat-context">Microsoft's water consumption in 2023</p>
+                <p class="stat-context">About a year's home water use for <strong>55,000 people</strong></p>
+                <div class="highlight-box" style="max-width: 560px;">
+                    <p><span class="accent" style="font-weight: 600;">+34% in one year</span>, driven largely by AI workloads</p>
+                </div>
+                <p class="source">Source: Microsoft 2023 Environmental Sustainability Report</p>
+            </div>
+        </div>
+    </div>
+    <aside class="notes">
+        "Training and running AI models requires water for cooling. Microsoft used 6.4 billion liters of water in 2023."
+        "That's about a year's home water use for 55,000 people."
+        Pause. Let the number land. "That's a 34% jump in a single year, largely because of AI."
+        "At the scale of millions of prompts, even small questions add up."
+    </aside>
+</section>
+
+<!-- ========== SLIDE 5: The Energy (BUILD) ========== -->
+<section class="slide">
+    <div class="slide-header">
+        <div class="slide-label">The Hidden Cost</div>
+        <h2>The Energy</h2>
+    </div>
+    <div class="slide-body">
+        <div class="icon-content-row">
+            <div class="icon-badge orange">&#x26A1;</div>
+            <div>
+                <div class="stat-large">1,000 TWh by 2026</div>
+                <p class="stat-context">Projected global data center electricity consumption</p>
+                <p class="stat-context">That's roughly <strong>Japan's entire electricity use</strong></p>
+                <p class="source">Source: International Energy Agency (IEA), 2024</p>
+
+                <div class="build" style="margin-top: 28px;">
+                    <div class="highlight-box" style="max-width: 560px;">
+                        <p style="font-size: 22px;">The point is not one prompt.<br><span class="accent" style="font-weight: 700; font-size: 30px;">It's billions of prompts</span><br>adding up in giant data centers.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <aside class="notes">
+        "By next year, data centers globally will use as much electricity as Japan."
+        Let that land. Pause 3 seconds.
+
+        [BUILD 1]
+        "And this is the part that matters: it's not any one prompt. It's billions of prompts, every day, adding up in giant data centers."
+
+        Spoken transition (no slide): "So we have this incredible tool that's accelerating the problem we're anxious about. This class is about sustainability and self-care. And the tool we all reach for every day is making it bigger. That's the tension."
+    </aside>
+</section>
+
+<!-- ========== SLIDE 6: Cloud vs Local ========== -->
+<section class="slide">
+    <div class="slide-header">
+        <div class="slide-label">The Alternative</div>
+        <h2>What if it didn't have to be this way?</h2>
+    </div>
+    <div class="slide-body">
+        <div class="split-compare">
+            <div class="split-card dark">
+                <div class="card-icon">&#x2601;&#xFE0F;</div>
+                <h3>Cloud AI</h3>
+                <div class="step-row">
+                    <div class="step-num">1</div>
+                    <div class="step-text">Your words travel to a data center</div>
+                </div>
+                <div class="step-row">
+                    <div class="step-num">2</div>
+                    <div class="step-text">Processed on massive servers</div>
+                </div>
+                <div class="step-row">
+                    <div class="step-num">3</div>
+                    <div class="step-text">Response sent back. Data stored.</div>
+                </div>
+            </div>
+            <div class="split-card light">
+                <div class="card-icon">&#x1F4BB;</div>
+                <h3>Local AI</h3>
+                <div class="step-row">
+                    <div class="step-num">1</div>
+                    <div class="step-text">Your words stay on your machine</div>
+                </div>
+                <div class="step-row">
+                    <div class="step-num">2</div>
+                    <div class="step-text">Processed by the chip in front of you</div>
+                </div>
+                <div class="step-row">
+                    <div class="step-num">3</div>
+                    <div class="step-text">Nothing leaves. Ever.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <aside class="notes">
+        Spoken transition into slide: "What if it didn't have to be this way?" (pause 2 seconds, then click)
+        "What if the AI ran right here? On your laptop. On a little box on your desk. No internet. No data center. No subscription."
+        Point to the two columns. "Same question. Same answer. Completely different path."
+    </aside>
+</section>
+
+<!-- ========== SLIDE 7: Why Now (BUILD) ========== -->
+<section class="slide">
+    <div class="slide-header">
+        <div class="slide-label">The Alternative</div>
+        <h2>Why is this possible now?</h2>
+        <div class="subtitle">The chips caught up.</div>
+    </div>
+    <div class="slide-body">
+        <div class="power-compare">
+            <div class="power-row">
+                <div class="power-label">Data center hardware</div>
+                <div class="power-bar-track">
+                    <div class="power-bar high">300 &ndash; 700W</div>
+                </div>
+            </div>
+            <div class="power-row build">
+                <div class="power-label">Mac mini on your desk</div>
+                <div class="power-bar-track">
+                    <div class="power-bar low">15 &ndash; 20W</div>
+                </div>
+            </div>
+        </div>
+        <div class="build">
+            <p class="power-tagline">Less power than a lightbulb. Running useful AI on a desktop-sized computer.</p>
+        </div>
+    </div>
+    <aside class="notes">
+        "Five years ago this wasn't possible. The chips weren't good enough. Now they are."
+        Show the data center bar. Let 300-700 watts register.
+
+        [BUILD 1]
+        "This Mac mini? 15 to 20 watts. Less power than a lightbulb. And it can run genuinely useful AI right here on your desk."
+
+        [BUILD 2]
+        Let the tagline reinforce. Point to the Mac mini on the table.
+    </aside>
+</section>
+
+<!-- ========== SLIDE 8: What Just Happened ========== -->
+<section class="slide">
+    <div class="slide-header">
+        <div class="slide-label">The Proof</div>
+        <h2>What just happened</h2>
+    </div>
+    <div class="slide-body">
+        <div class="content-block" style="max-width: 760px;">
+            <p style="font-size: 26px; font-weight: 500; color: var(--black); line-height: 1.5;">
+                That was a <span class="accent" style="font-weight: 700;">real AI model</span>, the kind companies charge $20/month for, running on a <span class="accent" style="font-weight: 700;">$599 Mac mini</span>.
+            </p>
+            <div class="proof-pills">
+                <span class="proof-pill">
+                    <span class="pill-icon" style="color: var(--red);">&#x2715;</span> No internet
+                </span>
+                <span class="proof-pill">
+                    <span class="pill-icon" style="color: var(--red);">&#x2715;</span> No cloud
+                </span>
+                <span class="proof-pill">
+                    <span class="pill-icon" style="color: var(--red);">&#x2715;</span> No subscription
+                </span>
+                <span class="proof-pill">
+                    <span class="pill-icon" style="color: var(--green);">&#x2713;</span> Your electricity. That's it.
+                </span>
+            </div>
+            <p style="font-size: 20px; color: var(--gray); margin-top: 22px; line-height: 1.45;">
+                Is it always as strong as the newest cloud model? No. But for studying, writing, brainstorming, and private questions, it's already useful.
+            </p>
+        </div>
+        <div class="highlight-box build" style="max-width: 760px;">
+            <p>This isn't just a chatbot. Developers are building real tools on local AI: coding assistants, automation platforms, research tools. <span class="accent" style="font-weight: 600;">40,000+ apps and counting.</span></p>
+        </div>
+    </div>
+    <aside class="notes">
+        "So that's what just happened. A real AI model, the kind you'd pay $20 a month for, running on a $599 box sitting on this table."
+        Point to the pills. "No internet. No cloud. No subscription. Your electricity, that's it."
+        "Is it always as good as the newest cloud model? No."
+        "But for studying, writing, brainstorming, and private questions, it's already enough for a lot of people."
+
+        [BUILD 1]
+        "And this isn't just a chatbot. People are building real tools on top of this. Claude Code, which developers use to write software. OpenClaw, which automates workflows. Over 40,000 apps and counting."
+        "This is where AI is going. If you want to understand the future, this is a good place to start."
+
+        Spoken transition to next section: "So that's the environmental story. But there's another thing nobody talks about."
+    </aside>
+</section>
+
+<!-- ========== SLIDE 9: Where do your words go? ========== -->
+<section class="slide">
+    <div class="slide-header">
+        <div class="slide-label">Privacy as Self-Care</div>
+        <h2>Where do your words go?</h2>
+    </div>
+    <div class="slide-body">
+        <div class="two-col">
+            <div class="privacy-col">
+                <h3>
+                    <span class="dot red"></span>
+                    Cloud AI
+                </h3>
+                <ul>
+                    <li><span class="bullet" style="color: var(--red);">&#x25CF;</span> Your prompt leaves your device</li>
+                    <li><span class="bullet" style="color: var(--red);">&#x25CF;</span> May be stored by the service</li>
+                    <li><span class="bullet" style="color: var(--red);">&#x25CF;</span> Privacy depends on provider settings</li>
+                    <li><span class="bullet" style="color: var(--red);">&#x25CF;</span> Could still be requested by courts</li>
+                </ul>
+            </div>
+            <div class="privacy-col">
+                <h3>
+                    <span class="dot green"></span>
+                    Local AI
+                </h3>
+                <div class="local-lock-card">
+                    <div class="lock-icon">&#x1F512;</div>
+                    <div class="lock-text">Never leaves your machine.</div>
+                    <div class="lock-sub">Period.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <aside class="notes">
+        "Here's something most people don't think about: when you use cloud AI, your prompt leaves your device."
+        Point to left column. Let each bullet register.
+        "How private that is depends on the company and your settings."
+        "Local AI?" Point to right. "Never leaves your machine. Period."
+    </aside>
+</section>
+
+<!-- ========== SLIDE 10: Self-Care Means Privacy (BUILD) ========== -->
+<section class="slide">
+    <div class="slide-header">
+        <div class="slide-label">Privacy as Self-Care</div>
+        <h2>Self-care means privacy</h2>
+        <div class="subtitle">A space that's truly yours. No judgment. No storage. No audience.</div>
+    </div>
+    <div class="slide-body">
+        <div class="privacy-lines" style="margin-top: 12px;">
+            <div class="privacy-line build">Your journal prompts.</div>
+            <div class="privacy-line build">Your therapy questions.</div>
+            <div class="privacy-line build">Your half-baked ideas.</div>
+            <div class="privacy-line build">Your embarrassing study questions.</div>
+        </div>
+    </div>
+    <aside class="notes">
+        "This class is about self-care. Part of self-care is having a space that's truly yours."
+
+        [BUILD 1]
+        "Your journal prompts." Pause.
+
+        [BUILD 2]
+        "Your therapy questions." Pause.
+
+        [BUILD 3]
+        "Your half-baked ideas." Pause.
+
+        [BUILD 4]
+        "Your embarrassing study questions." Pause. Let it land.
+        "Where you can ask anything without judgment, without it being stored, without anyone seeing it."
+    </aside>
+</section>
+
+<!-- ========== SLIDE 11: The AI Tutor ========== -->
+<section class="slide">
+    <div class="slide-header">
+        <div class="slide-label">Privacy as Self-Care</div>
+        <h2>Your personal tutor</h2>
+        <div class="subtitle">With the right app, it can help you study your readings privately.</div>
+    </div>
+    <div class="slide-body">
+        <ul class="benefits-list" style="margin-top: 4px;">
+            <li><span class="check">&#x2713;</span> Costs nothing</li>
+            <li><span class="check">&#x2713;</span> Available 24/7</li>
+            <li><span class="check">&#x2713;</span> Nobody sees what you ask</li>
+            <li><span class="check">&#x2713;</span> "Explain this like I'm five" without judgment</li>
+        </ul>
+    </div>
+    <aside class="notes">
+        "Imagine having a study partner that can help you work through your readings, never gets tired, costs you nothing, and nobody will ever know you asked it to explain Chapter 3 for the fourth time."
+        Smile. Let them laugh if they do.
+        "That's what local AI gives you."
+    </aside>
+</section>
+
+<!-- ========== SLIDE 12: Get Started ========== -->
+<section class="slide">
+    <div class="slide-header">
+        <div class="slide-label">Get Started</div>
+        <h2>Start here</h2>
+        <div class="subtitle">You don't need a CS degree. You need a laptop, curiosity, and 5 minutes.</div>
+    </div>
+    <div class="slide-body">
+        <div class="qr-section">
+            <div class="qr-box">
+                <svg width="200" height="200" viewBox="0 0 26.4 26.4" xmlns="http://www.w3.org/2000/svg"><rect width="26.4" height="26.4" fill="white"/><path d="M1.6,1.6H2.4V2.4H1.6zM2.4,1.6H3.2V2.4H2.4zM3.2,1.6H4V2.4H3.2zM4,1.6H4.8V2.4H4zM4.8,1.6H5.6V2.4H4.8zM5.6,1.6H6.4V2.4H5.6zM6.4,1.6H7.2V2.4H6.4zM8,1.6H8.8V2.4H8zM9.6,1.6H10.4V2.4H9.6zM10.4,1.6H11.2V2.4H10.4zM11.2,1.6H12V2.4H11.2zM12.8,1.6H13.6V2.4H12.8zM16,1.6H16.8V2.4H16zM19.2,1.6H20V2.4H19.2zM20,1.6H20.8V2.4H20zM20.8,1.6H21.6V2.4H20.8zM21.6,1.6H22.4V2.4H21.6zM22.4,1.6H23.2V2.4H22.4zM23.2,1.6H24V2.4H23.2zM24,1.6H24.8V2.4H24zM1.6,2.4H2.4V3.2H1.6zM6.4,2.4H7.2V3.2H6.4zM14.4,2.4H15.2V3.2H14.4zM15.2,2.4H16V3.2H15.2zM16,2.4H16.8V3.2H16zM16.8,2.4H17.6V3.2H16.8zM19.2,2.4H20V3.2H19.2zM24,2.4H24.8V3.2H24zM1.6,3.2H2.4V4H1.6zM3.2,3.2H4V4H3.2zM4,3.2H4.8V4H4zM4.8,3.2H5.6V4H4.8zM6.4,3.2H7.2V4H6.4zM8.8,3.2H9.6V4H8.8zM10.4,3.2H11.2V4H10.4zM11.2,3.2H12V4H11.2zM12,3.2H12.8V4H12zM15.2,3.2H16V4H15.2zM17.6,3.2H18.4V4H17.6zM19.2,3.2H20V4H19.2zM20.8,3.2H21.6V4H20.8zM21.6,3.2H22.4V4H21.6zM22.4,3.2H23.2V4H22.4zM24,3.2H24.8V4H24zM1.6,4H2.4V4.8H1.6zM3.2,4H4V4.8H3.2zM4,4H4.8V4.8H4zM4.8,4H5.6V4.8H4.8zM6.4,4H7.2V4.8H6.4zM8,4H8.8V4.8H8zM8.8,4H9.6V4.8H8.8zM9.6,4H10.4V4.8H9.6zM12.8,4H13.6V4.8H12.8zM14.4,4H15.2V4.8H14.4zM17.6,4H18.4V4.8H17.6zM19.2,4H20V4.8H19.2zM20.8,4H21.6V4.8H20.8zM21.6,4H22.4V4.8H21.6zM22.4,4H23.2V4.8H22.4zM24,4H24.8V4.8H24zM1.6,4.8H2.4V5.6H1.6zM3.2,4.8H4V5.6H3.2zM4,4.8H4.8V5.6H4zM4.8,4.8H5.6V5.6H4.8zM6.4,4.8H7.2V5.6H6.4zM8,4.8H8.8V5.6H8zM8.8,4.8H9.6V5.6H8.8zM9.6,4.8H10.4V5.6H9.6zM11.2,4.8H12V5.6H11.2zM12,4.8H12.8V5.6H12zM12.8,4.8H13.6V5.6H12.8zM13.6,4.8H14.4V5.6H13.6zM15.2,4.8H16V5.6H15.2zM16,4.8H16.8V5.6H16zM19.2,4.8H20V5.6H19.2zM20.8,4.8H21.6V5.6H20.8zM21.6,4.8H22.4V5.6H21.6zM22.4,4.8H23.2V5.6H22.4zM24,4.8H24.8V5.6H24zM1.6,5.6H2.4V6.4H1.6zM6.4,5.6H7.2V6.4H6.4zM8,5.6H8.8V6.4H8zM9.6,5.6H10.4V6.4H9.6zM11.2,5.6H12V6.4H11.2zM12,5.6H12.8V6.4H12zM12.8,5.6H13.6V6.4H12.8zM14.4,5.6H15.2V6.4H14.4zM15.2,5.6H16V6.4H15.2zM16.8,5.6H17.6V6.4H16.8zM17.6,5.6H18.4V6.4H17.6zM19.2,5.6H20V6.4H19.2zM24,5.6H24.8V6.4H24zM1.6,6.4H2.4V7.2H1.6zM2.4,6.4H3.2V7.2H2.4zM3.2,6.4H4V7.2H3.2zM4,6.4H4.8V7.2H4zM4.8,6.4H5.6V7.2H4.8zM5.6,6.4H6.4V7.2H5.6zM6.4,6.4H7.2V7.2H6.4zM8,6.4H8.8V7.2H8zM9.6,6.4H10.4V7.2H9.6zM11.2,6.4H12V7.2H11.2zM12.8,6.4H13.6V7.2H12.8zM14.4,6.4H15.2V7.2H14.4zM16,6.4H16.8V7.2H16zM17.6,6.4H18.4V7.2H17.6zM19.2,6.4H20V7.2H19.2zM20,6.4H20.8V7.2H20zM20.8,6.4H21.6V7.2H20.8zM21.6,6.4H22.4V7.2H21.6zM22.4,6.4H23.2V7.2H22.4zM23.2,6.4H24V7.2H23.2zM24,6.4H24.8V7.2H24zM8,7.2H8.8V8H8zM8.8,7.2H9.6V8H8.8zM10.4,7.2H11.2V8H10.4zM12.8,7.2H13.6V8H12.8zM13.6,7.2H14.4V8H13.6zM14.4,7.2H15.2V8H14.4zM15.2,7.2H16V8H15.2zM1.6,8H2.4V8.8H1.6zM4.8,8H5.6V8.8H4.8zM6.4,8H7.2V8.8H6.4zM7.2,8H8V8.8H7.2zM8,8H8.8V8.8H8zM10.4,8H11.2V8.8H10.4zM12,8H12.8V8.8H12zM12.8,8H13.6V8.8H12.8zM13.6,8H14.4V8.8H13.6zM15.2,8H16V8.8H15.2zM17.6,8H18.4V8.8H17.6zM18.4,8H19.2V8.8H18.4zM19.2,8H20V8.8H19.2zM20,8H20.8V8.8H20zM20.8,8H21.6V8.8H20.8zM21.6,8H22.4V8.8H21.6zM24,8H24.8V8.8H24zM2.4,8.8H3.2V9.6H2.4zM4,8.8H4.8V9.6H4zM4.8,8.8H5.6V9.6H4.8zM5.6,8.8H6.4V9.6H5.6zM7.2,8.8H8V9.6H7.2zM8,8.8H8.8V9.6H8zM8.8,8.8H9.6V9.6H8.8zM9.6,8.8H10.4V9.6H9.6zM13.6,8.8H14.4V9.6H13.6zM14.4,8.8H15.2V9.6H14.4zM15.2,8.8H16V9.6H15.2zM16,8.8H16.8V9.6H16zM19.2,8.8H20V9.6H19.2zM20,8.8H20.8V9.6H20zM20.8,8.8H21.6V9.6H20.8zM21.6,8.8H22.4V9.6H21.6zM22.4,8.8H23.2V9.6H22.4zM23.2,8.8H24V9.6H23.2zM24,8.8H24.8V9.6H24zM1.6,9.6H2.4V10.4H1.6zM3.2,9.6H4V10.4H3.2zM4,9.6H4.8V10.4H4zM6.4,9.6H7.2V10.4H6.4zM7.2,9.6H8V10.4H7.2zM9.6,9.6H10.4V10.4H9.6zM11.2,9.6H12V10.4H11.2zM12,9.6H12.8V10.4H12zM12.8,9.6H13.6V10.4H12.8zM13.6,9.6H14.4V10.4H13.6zM15.2,9.6H16V10.4H15.2zM18.4,9.6H19.2V10.4H18.4zM24,9.6H24.8V10.4H24zM1.6,10.4H2.4V11.2H1.6zM4.8,10.4H5.6V11.2H4.8zM7.2,10.4H8V11.2H7.2zM12,10.4H12.8V11.2H12zM13.6,10.4H14.4V11.2H13.6zM14.4,10.4H15.2V11.2H14.4zM15.2,10.4H16V11.2H15.2zM16,10.4H16.8V11.2H16zM17.6,10.4H18.4V11.2H17.6zM18.4,10.4H19.2V11.2H18.4zM20.8,10.4H21.6V11.2H20.8zM21.6,10.4H22.4V11.2H21.6zM23.2,10.4H24V11.2H23.2zM24,10.4H24.8V11.2H24zM2.4,11.2H3.2V12H2.4zM3.2,11.2H4V12H3.2zM5.6,11.2H6.4V12H5.6zM6.4,11.2H7.2V12H6.4zM7.2,11.2H8V12H7.2zM8,11.2H8.8V12H8zM9.6,11.2H10.4V12H9.6zM10.4,11.2H11.2V12H10.4zM11.2,11.2H12V12H11.2zM12,11.2H12.8V12H12zM15.2,11.2H16V12H15.2zM16.8,11.2H17.6V12H16.8zM18.4,11.2H19.2V12H18.4zM23.2,11.2H24V12H23.2zM3.2,12H4V12.8H3.2zM4.8,12H5.6V12.8H4.8zM5.6,12H6.4V12.8H5.6zM8.8,12H9.6V12.8H8.8zM9.6,12H10.4V12.8H9.6zM10.4,12H11.2V12.8H10.4zM11.2,12H12V12.8H11.2zM12,12H12.8V12.8H12zM12.8,12H13.6V12.8H12.8zM13.6,12H14.4V12.8H13.6zM14.4,12H15.2V12.8H14.4zM15.2,12H16V12.8H15.2zM16,12H16.8V12.8H16zM19.2,12H20V12.8H19.2zM20.8,12H21.6V12.8H20.8zM21.6,12H22.4V12.8H21.6zM22.4,12H23.2V12.8H22.4zM23.2,12H24V12.8H23.2zM24,12H24.8V12.8H24zM2.4,12.8H3.2V13.6H2.4zM3.2,12.8H4V13.6H3.2zM4.8,12.8H5.6V13.6H4.8zM6.4,12.8H7.2V13.6H6.4zM8,12.8H8.8V13.6H8zM8.8,12.8H9.6V13.6H8.8zM9.6,12.8H10.4V13.6H9.6zM13.6,12.8H14.4V13.6H13.6zM16,12.8H16.8V13.6H16zM17.6,12.8H18.4V13.6H17.6zM18.4,12.8H19.2V13.6H18.4zM19.2,12.8H20V13.6H19.2zM21.6,12.8H22.4V13.6H21.6zM22.4,12.8H23.2V13.6H22.4zM24,12.8H24.8V13.6H24zM3.2,13.6H4V14.4H3.2zM4,13.6H4.8V14.4H4zM4.8,13.6H5.6V14.4H4.8zM7.2,13.6H8V14.4H7.2zM9.6,13.6H10.4V14.4H9.6zM10.4,13.6H11.2V14.4H10.4zM11.2,13.6H12V14.4H11.2zM12.8,13.6H13.6V14.4H12.8zM13.6,13.6H14.4V14.4H13.6zM15.2,13.6H16V14.4H15.2zM16,13.6H16.8V14.4H16zM19.2,13.6H20V14.4H19.2zM20.8,13.6H21.6V14.4H20.8zM23.2,13.6H24V14.4H23.2zM24,13.6H24.8V14.4H24zM3.2,14.4H4V15.2H3.2zM5.6,14.4H6.4V15.2H5.6zM6.4,14.4H7.2V15.2H6.4zM9.6,14.4H10.4V15.2H9.6zM11.2,14.4H12V15.2H11.2zM12,14.4H12.8V15.2H12zM12.8,14.4H13.6V15.2H12.8zM13.6,14.4H14.4V15.2H13.6zM15.2,14.4H16V15.2H15.2zM16,14.4H16.8V15.2H16zM17.6,14.4H18.4V15.2H17.6zM18.4,14.4H19.2V15.2H18.4zM23.2,14.4H24V15.2H23.2zM1.6,15.2H2.4V16H1.6zM3.2,15.2H4V16H3.2zM4,15.2H4.8V16H4zM4.8,15.2H5.6V16H4.8zM5.6,15.2H6.4V16H5.6zM9.6,15.2H10.4V16H9.6zM11.2,15.2H12V16H11.2zM13.6,15.2H14.4V16H13.6zM15.2,15.2H16V16H15.2zM16,15.2H16.8V16H16zM18.4,15.2H19.2V16H18.4zM19.2,15.2H20V16H19.2zM20,15.2H20.8V16H20zM20.8,15.2H21.6V16H20.8zM21.6,15.2H22.4V16H21.6zM23.2,15.2H24V16H23.2zM24,15.2H24.8V16H24zM5.6,16H6.4V16.8H5.6zM6.4,16H7.2V16.8H6.4zM8,16H8.8V16.8H8zM8.8,16H9.6V16.8H8.8zM10.4,16H11.2V16.8H10.4zM11.2,16H12V16.8H11.2zM12,16H12.8V16.8H12zM12.8,16H13.6V16.8H12.8zM13.6,16H14.4V16.8H13.6zM14.4,16H15.2V16.8H14.4zM16,16H16.8V16.8H16zM17.6,16H18.4V16.8H17.6zM18.4,16H19.2V16.8H18.4zM19.2,16H20V16.8H19.2zM20.8,16H21.6V16.8H20.8zM22.4,16H23.2V16.8H22.4zM24,16H24.8V16.8H24zM3.2,16.8H4V17.6H3.2zM4,16.8H4.8V17.6H4zM4.8,16.8H5.6V17.6H4.8zM5.6,16.8H6.4V17.6H5.6zM7.2,16.8H8V17.6H7.2zM8,16.8H8.8V17.6H8zM8.8,16.8H9.6V17.6H8.8zM9.6,16.8H10.4V17.6H9.6zM10.4,16.8H11.2V17.6H10.4zM11.2,16.8H12V17.6H11.2zM12,16.8H12.8V17.6H12zM13.6,16.8H14.4V17.6H13.6zM15.2,16.8H16V17.6H15.2zM16,16.8H16.8V17.6H16zM16.8,16.8H17.6V17.6H16.8zM17.6,16.8H18.4V17.6H17.6zM18.4,16.8H19.2V17.6H18.4zM20.8,16.8H21.6V17.6H20.8zM23.2,16.8H24V17.6H23.2zM24,16.8H24.8V17.6H24zM1.6,17.6H2.4V18.4H1.6zM2.4,17.6H3.2V18.4H2.4zM3.2,17.6H4V18.4H3.2zM4,17.6H4.8V18.4H4zM6.4,17.6H7.2V18.4H6.4zM7.2,17.6H8V18.4H7.2zM8,17.6H8.8V18.4H8zM10.4,17.6H11.2V18.4H10.4zM12,17.6H12.8V18.4H12zM13.6,17.6H14.4V18.4H13.6zM15.2,17.6H16V18.4H15.2zM16.8,17.6H17.6V18.4H16.8zM17.6,17.6H18.4V18.4H17.6zM18.4,17.6H19.2V18.4H18.4zM19.2,17.6H20V18.4H19.2zM20,17.6H20.8V18.4H20zM20.8,17.6H21.6V18.4H20.8zM21.6,17.6H22.4V18.4H21.6zM24,17.6H24.8V18.4H24zM8,18.4H8.8V19.2H8zM9.6,18.4H10.4V19.2H9.6zM12,18.4H12.8V19.2H12zM12.8,18.4H13.6V19.2H12.8zM13.6,18.4H14.4V19.2H13.6zM14.4,18.4H15.2V19.2H14.4zM15.2,18.4H16V19.2H15.2zM16,18.4H16.8V19.2H16zM16.8,18.4H17.6V19.2H16.8zM17.6,18.4H18.4V19.2H17.6zM20.8,18.4H21.6V19.2H20.8zM24,18.4H24.8V19.2H24zM1.6,19.2H2.4V20H1.6zM2.4,19.2H3.2V20H2.4zM3.2,19.2H4V20H3.2zM4,19.2H4.8V20H4zM4.8,19.2H5.6V20H4.8zM5.6,19.2H6.4V20H5.6zM6.4,19.2H7.2V20H6.4zM8,19.2H8.8V20H8zM8.8,19.2H9.6V20H8.8zM10.4,19.2H11.2V20H10.4zM13.6,19.2H14.4V20H13.6zM15.2,19.2H16V20H15.2zM16,19.2H16.8V20H16zM16.8,19.2H17.6V20H16.8zM17.6,19.2H18.4V20H17.6zM19.2,19.2H20V20H19.2zM20.8,19.2H21.6V20H20.8zM21.6,19.2H22.4V20H21.6zM22.4,19.2H23.2V20H22.4zM24,19.2H24.8V20H24zM1.6,20H2.4V20.8H1.6zM6.4,20H7.2V20.8H6.4zM8.8,20H9.6V20.8H8.8zM10.4,20H11.2V20.8H10.4zM12.8,20H13.6V20.8H12.8zM13.6,20H14.4V20.8H13.6zM14.4,20H15.2V20.8H14.4zM15.2,20H16V20.8H15.2zM16.8,20H17.6V20.8H16.8zM17.6,20H18.4V20.8H17.6zM20.8,20H21.6V20.8H20.8zM23.2,20H24V20.8H23.2zM24,20H24.8V20.8H24zM1.6,20.8H2.4V21.6H1.6zM3.2,20.8H4V21.6H3.2zM4,20.8H4.8V21.6H4zM4.8,20.8H5.6V21.6H4.8zM6.4,20.8H7.2V21.6H6.4zM8,20.8H8.8V21.6H8zM8.8,20.8H9.6V21.6H8.8zM9.6,20.8H10.4V21.6H9.6zM10.4,20.8H11.2V21.6H10.4zM11.2,20.8H12V21.6H11.2zM12,20.8H12.8V21.6H12zM12.8,20.8H13.6V21.6H12.8zM15.2,20.8H16V21.6H15.2zM16.8,20.8H17.6V21.6H16.8zM17.6,20.8H18.4V21.6H17.6zM18.4,20.8H19.2V21.6H18.4zM19.2,20.8H20V21.6H19.2zM20,20.8H20.8V21.6H20zM20.8,20.8H21.6V21.6H20.8zM21.6,20.8H22.4V21.6H21.6zM23.2,20.8H24V21.6H23.2zM1.6,21.6H2.4V22.4H1.6zM3.2,21.6H4V22.4H3.2zM4,21.6H4.8V22.4H4zM4.8,21.6H5.6V22.4H4.8zM6.4,21.6H7.2V22.4H6.4zM8.8,21.6H9.6V22.4H8.8zM10.4,21.6H11.2V22.4H10.4zM12,21.6H12.8V22.4H12zM13.6,21.6H14.4V22.4H13.6zM14.4,21.6H15.2V22.4H14.4zM15.2,21.6H16V22.4H15.2zM16,21.6H16.8V22.4H16zM16.8,21.6H17.6V22.4H16.8zM18.4,21.6H19.2V22.4H18.4zM24,21.6H24.8V22.4H24zM1.6,22.4H2.4V23.2H1.6zM3.2,22.4H4V23.2H3.2zM4,22.4H4.8V23.2H4zM4.8,22.4H5.6V23.2H4.8zM6.4,22.4H7.2V23.2H6.4zM10.4,22.4H11.2V23.2H10.4zM11.2,22.4H12V23.2H11.2zM12.8,22.4H13.6V23.2H12.8zM13.6,22.4H14.4V23.2H13.6zM16,22.4H16.8V23.2H16zM16.8,22.4H17.6V23.2H16.8zM17.6,22.4H18.4V23.2H17.6zM18.4,22.4H19.2V23.2H18.4zM21.6,22.4H22.4V23.2H21.6zM22.4,22.4H23.2V23.2H22.4zM23.2,22.4H24V23.2H23.2zM24,22.4H24.8V23.2H24zM1.6,23.2H2.4V24H1.6zM6.4,23.2H7.2V24H6.4zM9.6,23.2H10.4V24H9.6zM10.4,23.2H11.2V24H10.4zM11.2,23.2H12V24H11.2zM12.8,23.2H13.6V24H12.8zM14.4,23.2H15.2V24H14.4zM15.2,23.2H16V24H15.2zM16,23.2H16.8V24H16zM17.6,23.2H18.4V24H17.6zM19.2,23.2H20V24H19.2zM20,23.2H20.8V24H20zM21.6,23.2H22.4V24H21.6zM23.2,23.2H24V24H23.2zM24,23.2H24.8V24H24zM1.6,24H2.4V24.8H1.6zM2.4,24H3.2V24.8H2.4zM3.2,24H4V24.8H3.2zM4,24H4.8V24.8H4zM4.8,24H5.6V24.8H4.8zM5.6,24H6.4V24.8H5.6zM6.4,24H7.2V24.8H6.4zM8,24H8.8V24.8H8zM8.8,24H9.6V24.8H8.8zM10.4,24H11.2V24.8H10.4zM15.2,24H16V24.8H15.2zM16.8,24H17.6V24.8H16.8zM17.6,24H18.4V24.8H17.6zM20,24H20.8V24.8H20zM20.8,24H21.6V24.8H20.8zM23.2,24H24V24.8H23.2z" fill="#1d1d1f"/></svg>
+            </div>
+            <div class="qr-info">
+                <h3>Step-by-step guide</h3>
+                <p>Install instructions for Mac and Windows</p>
+                <p>What to try first</p>
+                <p>Ideas for what to build</p>
+                <div class="terminal" style="margin-top: 20px;">
+                    <span class="prompt">$ </span><span class="cmd">ollama run llama3.2</span>
+                </div>
+                <p style="font-size: 17px; color: var(--gray); margin-top: 12px;">If you like the terminal, great. If not, the guide walks you through it.</p>
+                <div class="connect">
+                    <p style="font-weight: 600; color: var(--black);">Thomas Jardine</p>
+                    <p style="font-size: 17px;">Connect on LinkedIn &middot; Let's keep talking</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <aside class="notes">
+        "You don't need a CS degree. You don't need to work at Apple. You need a laptop and curiosity."
+        "I put together a one-page guide. Install instructions, what to try first, and some ideas for what to build."
+        "Scan it now. It takes 30 seconds. I'll wait."
+        Give them 15-20 seconds to actually scan.
+        "Mac and Windows. Everything's in there."
+        "And if you like the terminal, there's a one-command path too."
+    </aside>
+</section>
+
+<!-- ========== SLIDE 13: Closing Question ========== -->
+<section class="slide slide--center">
+    <div class="closing-question">
+        If you could run AI <em>privately</em>,<br>
+        for <em>free</em>,<br>
+        with a <em>much lower footprint</em>...<br><br>
+        what problem would you solve?
+    </div>
+    <p class="closing-thanks">Thank you.</p>
+    <aside class="notes">
+        Let the question sit. Don't answer it. This is for them.
+        "That's the question I want to leave you with. Not what AI can do. You already know that."
+        "What would you do with AI that's truly yours?"
+        Pause. "Thank you."
+    </aside>
+</section>
+
+</div><!-- /deck -->
+
+<!-- Slide counter -->
+<div class="slide-counter"><span id="counter-current">1</span> / <span id="counter-total">13</span></div>
+
+<!-- Navigation -->
+<script>
+(function() {
+    var slides = document.querySelectorAll('.slide');
+    var currentSlide = 0;
+    var totalSlides = slides.length;
+    var progressBar = document.getElementById('progress-bar');
+
+    document.getElementById('counter-total').textContent = totalSlides;
+
+    function updateProgress() {
+        var pct = ((currentSlide) / (totalSlides - 1)) * 100;
+        progressBar.style.width = pct + '%';
+    }
+
+    function getBuilds(idx) {
+        return slides[idx].querySelectorAll('.build:not(.visible)');
+    }
+
+    function goToSlide(index) {
+        if (index < 0 || index >= totalSlides) return;
+        slides.forEach(function(s, i) {
+            s.classList.remove('active', 'prev');
+            if (i < index) s.classList.add('prev');
+            else if (i === index) s.classList.add('active');
+        });
+        if (index < currentSlide) {
+            var oldBuilds = slides[currentSlide].querySelectorAll('.build');
+            oldBuilds.forEach(function(b) { b.classList.remove('visible'); });
+        }
+        currentSlide = index;
+        document.getElementById('counter-current').textContent = currentSlide + 1;
+        updateProgress();
+    }
+
+    function nextSlide() {
+        var pendingBuilds = getBuilds(currentSlide);
+        if (pendingBuilds.length > 0) {
+            pendingBuilds[0].classList.add('visible');
+        } else {
+            goToSlide(currentSlide + 1);
+        }
+    }
+
+    function prevSlide() {
+        var visibleBuilds = slides[currentSlide].querySelectorAll('.build.visible');
+        if (visibleBuilds.length > 0) {
+            visibleBuilds[visibleBuilds.length - 1].classList.remove('visible');
+        } else {
+            if (currentSlide > 0) {
+                goToSlide(currentSlide - 1);
+                var allBuilds = slides[currentSlide].querySelectorAll('.build');
+                allBuilds.forEach(function(b) { b.classList.add('visible'); });
+            }
+        }
+    }
+
+    // Keyboard
+    document.addEventListener('keydown', function(e) {
+        switch(e.key) {
+            case 'ArrowRight':
+            case 'ArrowDown':
+            case ' ':
+            case 'PageDown':
+                e.preventDefault();
+                nextSlide();
+                break;
+            case 'ArrowLeft':
+            case 'ArrowUp':
+            case 'PageUp':
+                e.preventDefault();
+                prevSlide();
+                break;
+            case 'Home':
+                e.preventDefault();
+                goToSlide(0);
+                break;
+            case 'End':
+                e.preventDefault();
+                goToSlide(totalSlides - 1);
+                slides[currentSlide].querySelectorAll('.build').forEach(function(b) { b.classList.add('visible'); });
+                break;
+        }
+    });
+
+    // Click to advance
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('a, button, canvas')) return;
+        if (e.clientX < window.innerWidth / 2) {
+            prevSlide();
+        } else {
+            nextSlide();
+        }
+    });
+
+    // Touch swipe
+    var touchStartX = 0;
+    document.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+    });
+    document.addEventListener('touchend', function(e) {
+        var diff = touchStartX - e.changedTouches[0].screenX;
+        if (Math.abs(diff) > 50) {
+            diff > 0 ? nextSlide() : prevSlide();
+        }
+    });
+
+    updateProgress();
+})();
+</script>
+</body>
+</html>
