@@ -256,6 +256,50 @@
     font-family: 'SF Mono', 'Menlo', 'Consolas', monospace;
   }
 
+  /* Advanced / Go Further */
+  .advanced-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .advanced-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #f5f5f7;
+    border-radius: 14px;
+    padding: 16px;
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.2s;
+  }
+  .advanced-card:active { background: #eaeaec; }
+  .advanced-icon {
+    font-size: 28px;
+    flex-shrink: 0;
+    width: 44px;
+    text-align: center;
+  }
+  .advanced-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1d1d1f;
+  }
+  .advanced-desc {
+    font-size: 13px;
+    color: #6e6e73;
+    line-height: 1.4;
+    margin-top: 2px;
+  }
+  .advanced-tag {
+    font-size: 11px;
+    font-weight: 600;
+    color: #0071e3;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-top: 4px;
+  }
+
   /* Footer */
   footer {
     text-align: center;
@@ -376,7 +420,35 @@
     </div>
   </section>
 
-  <!-- Section 5: About -->
+  <!-- Section 5: Go Further -->
+  <section>
+    <h2>Go Further</h2>
+    <p style="color: #6e6e73; margin-bottom: 16px;">Once you're comfortable with Ollama, the ecosystem goes deep.</p>
+
+    <div class="advanced-grid">
+      <a href="https://github.com/anthropics/claude-code" target="_blank" class="advanced-card">
+        <div class="advanced-icon">&#x1F4BB;</div>
+        <div class="advanced-name">Claude Code</div>
+        <div class="advanced-desc">AI coding assistant that runs in your terminal. Uses local models through Ollama.</div>
+        <div class="advanced-tag">Developer Tool</div>
+      </a>
+      <a href="https://github.com/open-webui/open-webui" target="_blank" class="advanced-card">
+        <div class="advanced-icon">&#x1F310;</div>
+        <div class="advanced-name">Open WebUI</div>
+        <div class="advanced-desc">ChatGPT-style interface for your local models. Runs in your browser, nothing leaves your machine.</div>
+        <div class="advanced-tag">Chat Interface</div>
+      </a>
+      <a href="https://github.com/openclaw-ai/openclaw" target="_blank" class="advanced-card">
+        <div class="advanced-icon">&#x2699;&#xFE0F;</div>
+        <div class="advanced-name">OpenClaw</div>
+        <div class="advanced-desc">Automate tasks with AI agents. Connects to Ollama for fully local workflows.</div>
+        <div class="advanced-tag">Automation</div>
+      </a>
+    </div>
+    <p style="color: #86868b; font-size: 14px; margin-top: 12px;">40,000+ apps built on Ollama and growing.</p>
+  </section>
+
+  <!-- Section 6: About -->
   <section class="about-section">
     <div class="name">Thomas Jardine</div>
     <div class="role">Strategy &amp; Operations at Apple<br>Clean Energy Leadership Institute Fellow</div>
