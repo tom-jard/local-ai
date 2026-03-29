@@ -285,6 +285,73 @@ p, li {
     font-weight: 500;
 }
 
+/* --- Local AI examples --- */
+.local-ai-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+.example-card {
+    background: var(--silver);
+    border-radius: 18px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 420px;
+}
+.example-photo {
+    height: 190px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+.example-photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.10), rgba(0,0,0,0.28));
+}
+.example-photo-badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: 1;
+    background: rgba(255,255,255,0.92);
+    color: var(--black);
+    border-radius: 999px;
+    padding: 6px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+.example-photo--faceid {
+    background-image:
+        linear-gradient(135deg, rgba(0,113,227,0.40), rgba(29,29,31,0.12)),
+        url('images/local-ai-faceid.png');
+}
+.example-photo--photos {
+    background-image:
+        linear-gradient(135deg, rgba(52,199,89,0.30), rgba(29,29,31,0.12)),
+        url('images/local-ai-photo-search.png');
+}
+.example-photo--car {
+    background-image:
+        linear-gradient(135deg, rgba(255,149,0,0.35), rgba(29,29,31,0.16)),
+        url('images/local-ai-self-driving.png');
+}
+.example-copy {
+    padding: 22px 22px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.example-copy p {
+    font-size: 18px;
+    line-height: 1.45;
+    color: var(--gray);
+}
+
 /* --- Data center photo --- */
 .dc-photo {
     width: 100%;
@@ -677,7 +744,7 @@ aside.notes { display: none; }
     h1 { font-size: 48px; }
     .slide-header h2 { font-size: 38px; }
     .stat-large { font-size: 52px; }
-    .two-col, .split-compare, .use-grid { grid-template-columns: 1fr; }
+    .two-col, .split-compare, .use-grid, .local-ai-grid { grid-template-columns: 1fr; }
     .ai-logos { gap: 40px; }
     .ai-logo-mark { width: 112px; height: 112px; }
 }
@@ -714,7 +781,44 @@ aside.notes { display: none; }
     </aside>
 </section>
 
-<!-- ========== SLIDE 2: AI in Your Daily Life ========== -->
+<!-- ========== SLIDE 2: One Honest Note ========== -->
+<section class="slide">
+    <div class="slide-header">
+        <div class="slide-label">Before We Start</div>
+        <h2>One honest note</h2>
+        <div class="subtitle">This space moves fast. The core ideas matter more than any one tool.</div>
+    </div>
+    <div class="slide-body">
+        <div class="highlight-box" style="max-width: 920px;">
+            <p>The exact apps, models, and best practices will keep changing. What I want to give you today is a mental model: what local AI is, when it makes sense, what the tradeoffs are, and one practical way to try it yourself.</p>
+        </div>
+        <div class="two-col" style="gap: 24px; margin-top: 28px; align-items: stretch;">
+            <div class="content-block" style="padding: 28px;">
+                <h3>What may change quickly</h3>
+                <ul class="benefits-list" style="margin-top: 14px;">
+                    <li><span class="check">&#x2713;</span> Apps and interfaces</li>
+                    <li><span class="check">&#x2713;</span> Model quality and pricing</li>
+                    <li><span class="check">&#x2713;</span> Recommended workflows</li>
+                </ul>
+            </div>
+            <div class="content-block" style="padding: 28px;">
+                <h3>What tends to stay true</h3>
+                <ul class="benefits-list" style="margin-top: 14px;">
+                    <li><span class="check">&#x2713;</span> Where the computation happens matters</li>
+                    <li><span class="check">&#x2713;</span> Local and cloud have different tradeoffs</li>
+                    <li><span class="check">&#x2713;</span> Hardware limits are real</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <aside class="notes">
+        "One quick disclaimer before we start."
+        "This is a very fast-moving space. Some of the exact tools or workflows I show you today may age quickly."
+        "The point is not to memorize one app. The point is to understand the core idea and leave with a practical way to try it."
+    </aside>
+</section>
+
+<!-- ========== SLIDE 3: AI in Your Daily Life ========== -->
 <section class="slide slide--shared-ground">
     <div class="slide-header">
         <div class="slide-label">Shared Ground</div>
@@ -739,12 +843,6 @@ aside.notes { display: none; }
                     <img src="images/logos/gemini.svg" alt="Gemini logo">
                 </div>
                 <span>Gemini</span>
-            </div>
-            <div class="ai-logo ai-logo--openclaw">
-                <div class="ai-logo-mark">
-                    <img src="images/logos/openclaw.png" alt="OpenClaw logo">
-                </div>
-                <span>OpenClaw</span>
             </div>
         </div>
     </div>
@@ -834,7 +932,7 @@ aside.notes { display: none; }
     </aside>
 </section>
 
-<!-- ========== SLIDE 6: Cloud vs Local ========== -->
+<!-- ========== SLIDE 6: Cloud vs Local (BUILD) ========== -->
 <section class="slide">
     <div class="slide-header">
         <div class="slide-label">The Alternative</div>
@@ -858,7 +956,7 @@ aside.notes { display: none; }
                     <div class="step-text">Response sent back. Data stored.</div>
                 </div>
             </div>
-            <div class="split-card light">
+            <div class="split-card light build">
                 <div class="card-icon">&#x1F4BB;</div>
                 <h3>Local AI</h3>
                 <div class="step-row">
@@ -878,12 +976,66 @@ aside.notes { display: none; }
     </div>
     <aside class="notes">
         Spoken transition into slide: "What if it didn't have to be this way?" (pause 2 seconds, then click)
-        "What if the AI ran right here? On your laptop. On a little box on your desk. No internet. No data center. No subscription."
-        Point to the two columns. "Same question. Same answer. Completely different path."
+        Point to the left column first. "This is the default path today. Your words go out to a data center, get processed there, and come back."
+
+        [BUILD 1]
+        Point to the right column. "But here's the alternative. What if it ran right here? On your laptop. No internet. No data center. No subscription."
+        "Same question. Same answer. Completely different path."
     </aside>
 </section>
 
-<!-- ========== SLIDE 7: Why Now (BUILD) ========== -->
+<!-- ========== SLIDE 7: Familiar Examples ========== -->
+<section class="slide">
+    <div class="slide-header">
+        <div class="slide-label">The Alternative</div>
+        <h2>You already use local AI</h2>
+        <div class="subtitle">The idea isn't new. You're just seeing it now in language models.</div>
+    </div>
+    <div class="slide-body">
+        <div class="local-ai-grid">
+            <div class="example-card">
+                <div class="example-photo example-photo--faceid">
+                    <div class="example-photo-badge">On your phone</div>
+                </div>
+                <div class="example-copy">
+                    <h3>Face ID</h3>
+                    <p>Your phone unlocks by matching your face on-device instead of sending that scan to a remote server.</p>
+                </div>
+            </div>
+            <div class="example-card">
+                <div class="example-photo example-photo--photos">
+                    <div class="example-photo-badge">In your library</div>
+                </div>
+                <div class="example-copy">
+                    <h3>Photo search</h3>
+                    <p>Your device can recognize dogs, beaches, receipts, and people inside your photo library without shipping the whole library out.</p>
+                </div>
+            </div>
+            <div class="example-card">
+                <div class="example-photo example-photo--car">
+                    <div class="example-photo-badge">At the edge</div>
+                </div>
+                <div class="example-copy">
+                    <h3>Self-driving cars</h3>
+                    <p>Critical driving decisions have to happen in the car, in real time. Waiting on a cloud round trip would be absurd.</p>
+                </div>
+            </div>
+        </div>
+        <div class="highlight-box build" style="max-width: 820px; margin-top: 20px;">
+            <p>Local AI means the model runs where the data is.</p>
+        </div>
+    </div>
+    <aside class="notes">
+        "This isn't some brand-new concept. You already use local AI."
+        "Face ID. Photo search. And at the extreme end, self-driving cars."
+        "Same basic idea: the model runs on the device instead of a faraway server."
+
+        [BUILD 1]
+        "Language models are just the new version of that idea."
+    </aside>
+</section>
+
+<!-- ========== SLIDE 8: Why Now (BUILD) ========== -->
 <section class="slide">
     <div class="slide-header">
         <div class="slide-label">The Alternative</div>
@@ -921,7 +1073,7 @@ aside.notes { display: none; }
     </aside>
 </section>
 
-<!-- ========== SLIDE 8: Demo ========== -->
+<!-- ========== SLIDE 9: Demo ========== -->
 <section class="slide slide--center">
     <p style="font-size: 48px; margin-bottom: 24px;">&#x1F4BB;</p>
     <h1 style="font-size: 56px;">Let me show you.</h1>
@@ -943,7 +1095,7 @@ aside.notes { display: none; }
     <div class="slide-body">
         <div class="content-block" style="max-width: 760px;">
             <p style="font-size: 26px; font-weight: 500; color: var(--black); line-height: 1.5;">
-                That was a <span class="accent" style="font-weight: 700;">real AI model</span>, the kind companies charge $20/month for, running on <span class="accent" style="font-weight: 700;">this laptop</span>.
+                That was a <span class="accent" style="font-weight: 700;">real AI model</span> running on <span class="accent" style="font-weight: 700;">this laptop</span>, right here in the room.
             </p>
             <div class="proof-pills">
                 <span class="proof-pill">
@@ -963,25 +1115,62 @@ aside.notes { display: none; }
                 Is it always as strong as the newest cloud model? No. But for studying, writing, brainstorming, and private questions, it's already useful.
             </p>
         </div>
-        <div class="highlight-box build" style="max-width: 760px;">
-            <p>This isn't just a chatbot. Developers are building real tools on local AI: coding assistants, automation platforms, research tools. <span class="accent" style="font-weight: 600;">40,000+ apps and counting.</span></p>
-        </div>
     </div>
     <aside class="notes">
-        "So that's what just happened. A real AI model, the kind you'd pay $20 a month for, running on this laptop sitting right here."
+        "So that's what just happened. A real AI model running on this laptop sitting right here."
         Point to the pills. "No internet. No cloud. No subscription. Your electricity, that's it."
         "Is it always as good as the newest cloud model? No."
         "But for studying, writing, brainstorming, and private questions, it's already enough for a lot of people."
-
-        [BUILD 1]
-        "And this isn't just a chatbot. People are building real tools on top of this. Claude Code, which developers use to write software. OpenClaw, which automates workflows. Over 40,000 apps and counting."
-        "This is where AI is going. If you want to understand the future, this is a good place to start."
-
-        Spoken transition to next section: "So that's the environmental story. But there's another thing nobody talks about."
+        Spoken transition to next section: "So yes, this is real. Now let me give you the honest version."
     </aside>
 </section>
 
-<!-- ========== SLIDE 9: Where do your words go? ========== -->
+<!-- ========== SLIDE 10: The Honest Version ========== -->
+<section class="slide">
+    <div class="slide-header">
+        <div class="slide-label">Reality Check</div>
+        <h2>The honest version</h2>
+        <div class="subtitle">Local AI is real and useful, but it comes with tradeoffs.</div>
+    </div>
+    <div class="slide-body">
+        <div class="two-col">
+            <div class="content-block">
+                <h3 style="margin-bottom: 16px;">Where it shines</h3>
+                <ul style="list-style: none; display: flex; flex-direction: column; gap: 14px;">
+                    <li><span class="bullet" style="color: var(--green); margin-right: 10px;">&#x25CF;</span> Studying, drafting, brainstorming, everyday questions</li>
+                    <li><span class="bullet" style="color: var(--green); margin-right: 10px;">&#x25CF;</span> Fast enough on a decent laptop</li>
+                    <li><span class="bullet" style="color: var(--green); margin-right: 10px;">&#x25CF;</span> Runs on hardware you already own</li>
+                </ul>
+            </div>
+            <div class="content-block">
+                <h3 style="margin-bottom: 16px;">Where it falls short</h3>
+                <ul style="list-style: none; display: flex; flex-direction: column; gap: 14px;">
+                    <li><span class="bullet" style="color: var(--red); margin-right: 10px;">&#x25CF;</span> Not as strong as the best cloud models</li>
+                    <li><span class="bullet" style="color: var(--red); margin-right: 10px;">&#x25CF;</span> Larger models can hit memory limits fast</li>
+                    <li><span class="bullet" style="color: var(--red); margin-right: 10px;">&#x25CF;</span> Speed depends a lot on your hardware</li>
+                    <li><span class="bullet" style="color: var(--red); margin-right: 10px;">&#x25CF;</span> The app ecosystem is still early and sometimes rough</li>
+                </ul>
+            </div>
+        </div>
+        <div class="highlight-box build" style="max-width: 840px;">
+            <p><span class="accent" style="font-weight: 600;">Use local</span> for everyday tasks and experimentation. <span class="accent" style="font-weight: 600;">Use cloud</span> when you need the strongest model.</p>
+        </div>
+    </div>
+    <aside class="notes">
+        "Here's the honest version."
+        "These are not frontier models, and that matters."
+        "You'll run into memory limits, speed limits, and rough edges depending on your hardware."
+        "But for a lot of everyday use and lower-stakes work, local AI is already useful."
+
+        [BUILD 1]
+        "So this isn't about replacing every cloud model."
+        "It's about having another option for everyday tasks and experimentation."
+
+        Spoken transition to next section: "And that leads to the privacy story."
+    </aside>
+</section>
+
+<!-- ========== SLIDE 11: Where do your words go? ========== -->
 <section class="slide">
     <div class="slide-header">
         <div class="slide-label">Privacy as Self-Care</div>
@@ -1022,34 +1211,79 @@ aside.notes { display: none; }
     </aside>
 </section>
 
-<!-- ========== SLIDE 10: The AI Tutor ========== -->
+<!-- ========== SLIDE 12: The AI Tutor ========== -->
 <section class="slide">
     <div class="slide-header">
         <div class="slide-label">Privacy as Self-Care</div>
-        <h2>Your personal tutor</h2>
-        <div class="subtitle">With the right app, it can help you study your readings privately.</div>
+        <h2>A private study helper</h2>
+        <div class="subtitle">Today, we'll use it for summaries, questions, and brainstorming.</div>
     </div>
     <div class="slide-body">
         <ul class="benefits-list" style="margin-top: 4px;">
             <li><span class="check">&#x2713;</span> Costs nothing</li>
             <li><span class="check">&#x2713;</span> Available 24/7</li>
             <li><span class="check">&#x2713;</span> Nobody sees what you ask</li>
-            <li><span class="check">&#x2713;</span> "Explain this like I'm five" without judgment</li>
+            <li><span class="check">&#x2713;</span> Helpful for summaries, study questions, and first drafts</li>
         </ul>
     </div>
     <aside class="notes">
-        "Imagine having a study partner that can help you work through your readings, never gets tired, costs you nothing, and nobody will ever know you asked it to explain Chapter 3 for the fourth time."
+        "Think of this less like a magic tutor and more like a private study helper."
+        "It can help you summarize a reading, generate study questions, or get a first draft going."
         Smile. Let them laugh if they do.
-        "That's what local AI gives you."
+        "That's the level we're aiming for in the hands-on part."
     </aside>
 </section>
 
-<!-- ========== SLIDE 12: Get Started ========== -->
+<!-- ========== SLIDE 13: What We're About To Do Today ========== -->
+<section class="slide">
+    <div class="slide-header">
+        <div class="slide-label">What We'll Do</div>
+        <h2>What we're about to do today</h2>
+        <div class="subtitle">The hands-on part is simple.</div>
+    </div>
+    <div class="slide-body">
+        <div class="two-col" style="gap: 20px;">
+            <div class="content-block" style="padding: 24px 28px;">
+                <h3>1. Scan the guide</h3>
+                <p style="margin-top: 8px; font-size: 19px;">You do not need to memorize anything. The setup steps are all there.</p>
+            </div>
+            <div class="content-block" style="padding: 24px 28px;">
+                <h3>2. Install the Ollama app</h3>
+                <p style="margin-top: 8px; font-size: 19px;">Mac and Windows both work. We just need one working machine per pair.</p>
+            </div>
+            <div class="content-block" style="padding: 24px 28px;">
+                <h3>3. Open the app and try one model</h3>
+                <p style="margin-top: 8px; font-size: 19px;">We'll start with <span class="accent" style="font-weight: 600;">llama3.2</span> so everyone gets a baseline success.</p>
+            </div>
+            <div class="content-block" style="padding: 24px 28px;">
+                <h3>4. Make one useful thing</h3>
+                <p style="margin-top: 8px; font-size: 19px;">A study guide, reflection questions, or a small sustainability action plan.</p>
+            </div>
+        </div>
+        <div class="highlight-box build" style="max-width: 760px; margin-top: 20px;">
+            <p>Work in pairs. If one laptop works, your pair is good.</p>
+        </div>
+        <p style="font-size: 16px; color: var(--gray-light); margin-top: 14px;">We're using <span class="accent" style="font-weight: 600;">Ollama</span> today because it's a simple starting point. Other good local-first tools include <span style="color: var(--black);">LM Studio</span>, <span style="color: var(--black);">Jan</span>, and <span style="color: var(--black);">GPT4All</span>.</p>
+    </div>
+    <aside class="notes">
+        "Before we jump in, here's the whole plan."
+        "Scan the guide, install the Ollama app, try one local model, then make one useful thing for class."
+        "And work in pairs. If one laptop works, your pair is good."
+        "We're using Ollama to keep the room aligned, not because it's the only valid tool."
+
+        [BUILD 1]
+        "That way we keep the room moving and don't get stuck debugging every machine."
+
+        Spoken transition to next section: "Okay. Here's the guide."
+    </aside>
+</section>
+
+<!-- ========== SLIDE 14: Get Started ========== -->
 <section class="slide">
     <div class="slide-header">
         <div class="slide-label">Get Started</div>
         <h2>Start here</h2>
-        <div class="subtitle">You don't need a CS degree. You need a laptop, curiosity, and 5 minutes.</div>
+        <div class="subtitle">You don't need a CS degree. You need a laptop, curiosity, and a little patience.</div>
     </div>
     <div class="slide-body">
         <div class="qr-section">
@@ -1058,13 +1292,14 @@ aside.notes { display: none; }
             </div>
             <div class="qr-info">
                 <h3>Step-by-step guide</h3>
-                <p>Install instructions for Mac and Windows</p>
-                <p>What to try first</p>
-                <p>Ideas for what to build</p>
+                <p>Install the Ollama app on Mac or Windows</p>
+                <p>Open chat and try <strong style="color: var(--black);">llama3.2</strong></p>
+                <p>Follow example prompts and task ideas</p>
                 <div class="terminal" style="margin-top: 20px;">
-                    <span class="prompt">$ </span><span class="cmd">ollama run llama3.2</span>
+                    <span class="prompt">$ </span><span class="cmd">optional terminal path: ollama run llama3.2</span>
                 </div>
-                <p style="font-size: 17px; color: var(--gray); margin-top: 12px;">If you like the terminal, great. If not, the guide walks you through it.</p>
+                <p style="font-size: 17px; color: var(--gray); margin-top: 12px;">The app is the default path today. If you like the terminal, the guide includes that too.</p>
+                <p style="font-size: 15px; color: var(--gray-light); margin-top: 8px;">Other local-first apps exist too: LM Studio, Jan, GPT4All. We're standardizing on one tool for class so setup is manageable.</p>
                 <div class="connect">
                     <p style="font-weight: 600; color: var(--black);">Thomas Jardine</p>
                     <p style="font-size: 17px;">Connect on LinkedIn &middot; Let's keep talking</p>
@@ -1075,34 +1310,98 @@ aside.notes { display: none; }
     <aside class="notes">
         "You don't need a CS degree. You don't need to work at Apple. You need a laptop and curiosity."
         "I put together a one-page guide. Install instructions, what to try first, and some ideas for what to build."
-        "Scan it now. It takes 30 seconds. I'll wait."
+        "Scan it now. We're about to start."
         Give them 15-20 seconds to actually scan.
         "Mac and Windows. Everything's in there."
-        "And if you like the terminal, there's a one-command path too."
+        "Pair up with someone near you. If one laptop works, that's enough."
+        "The app is the default path today. And if you like the terminal, there's a one-command path too."
+        "There are other good tools in this space. I'm using one here so the room doesn't fragment."
+        Spoken transition: "Once you've scanned it, here's the rule if anything goes sideways."
     </aside>
 </section>
 
-<!-- ========== SLIDE 13: Closing Question ========== -->
-<section class="slide slide--center">
-    <div class="closing-question">
-        If you could run AI <em>privately</em>,<br>
-        for <em>free</em>,<br>
-        with a <em>much lower footprint</em>...<br><br>
-        what problem would you solve?
+<!-- ========== SLIDE 15: If You're Stuck ========== -->
+<section class="slide">
+    <div class="slide-header">
+        <div class="slide-label">Workshop Mode</div>
+        <h2>If you get stuck</h2>
+        <div class="subtitle">Do not stall out alone. Keep moving with the room.</div>
     </div>
-    <p class="closing-thanks">Thank you.</p>
+    <div class="slide-body">
+        <div class="two-col" style="gap: 24px; align-items: stretch;">
+            <div class="content-block" style="padding: 28px;">
+                <h3>Default move</h3>
+                <ul class="benefits-list" style="margin-top: 14px;">
+                    <li><span class="check">&#x2713;</span> Pair up with someone nearby</li>
+                    <li><span class="check">&#x2713;</span> One working laptop per pair is enough</li>
+                    <li><span class="check">&#x2713;</span> Ask for help before you burn 10 minutes</li>
+                </ul>
+            </div>
+            <div class="content-block" style="padding: 28px;">
+                <h3>Goal for this block</h3>
+                <p style="margin-top: 10px; font-size: 19px;">Get the Ollama app open and see <span class="accent" style="font-weight: 600;">llama3.2</span> answer one message.</p>
+                <p style="font-size: 17px; color: var(--gray); margin-top: 14px;">If you prefer the CLI, you can still run <code>ollama run llama3.2</code>. If your machine is slow or the install fails, switch to your partner's laptop and keep going.</p>
+            </div>
+        </div>
+        <div class="highlight-box build" style="max-width: 820px; margin-top: 20px;">
+            <p>Success today is per pair, not per person.</p>
+        </div>
+    </div>
     <aside class="notes">
-        Let the question sit. Don't answer it. This is for them.
-        "That's the question I want to leave you with. Not what AI can do. You already know that."
-        "What would you do with AI that's truly yours?"
-        Pause. "Thank you."
+        "A few machines will be weird. That's normal."
+        "Don't stall out alone. Pair up, ask for help, and keep the room moving."
+        "The goal for this block is simple: get the Ollama app open and see llama3.2 answer one message."
+        "If someone prefers the terminal, fine, but that's not the requirement."
+
+        [BUILD 1]
+        "Success today is per pair, not per person."
+        Spoken transition: "Once you have that working, here's what I want you to make."
+    </aside>
+</section>
+
+<!-- ========== SLIDE 16: Pick One Task ========== -->
+<section class="slide">
+    <div class="slide-header">
+        <div class="slide-label">Workshop Prompt</div>
+        <h2>Pick one task</h2>
+        <div class="subtitle">Use local AI to make one useful thing for class or your life.</div>
+    </div>
+    <div class="slide-body">
+        <div class="two-col" style="gap: 20px;">
+            <div class="content-block" style="padding: 24px 28px;">
+                <h3>Study guide</h3>
+                <p style="margin-top: 8px; font-size: 19px;">Paste in notes or a reading and ask for a short study guide in plain English.</p>
+            </div>
+            <div class="content-block" style="padding: 24px 28px;">
+                <h3>Reflection questions</h3>
+                <p style="margin-top: 8px; font-size: 19px;">Generate three thoughtful questions you could bring to class discussion.</p>
+            </div>
+            <div class="content-block" style="padding: 24px 28px;">
+                <h3>Sustainability plan</h3>
+                <p style="margin-top: 8px; font-size: 19px;">Make a one-week action plan that actually fits student life.</p>
+            </div>
+            <div class="content-block" style="padding: 24px 28px;">
+                <h3>Explain a concept</h3>
+                <p style="margin-top: 8px; font-size: 19px;">Ask it to explain one course idea simply, then ask follow-up questions.</p>
+            </div>
+        </div>
+        <div class="highlight-box build" style="max-width: 900px; margin-top: 18px;">
+            <p>Good first prompt: "Summarize this reading in plain language and give me 3 study questions."</p>
+        </div>
+    </div>
+    <aside class="notes">
+        "Once you have a model running, don't overthink the assignment."
+        "Pick one useful thing: a study guide, reflection questions, a sustainability plan, or help understanding a concept."
+
+        [BUILD 1]
+        "If you want a starting point, use this prompt exactly and then adapt it to your class."
     </aside>
 </section>
 
 </div><!-- /deck -->
 
 <!-- Slide counter -->
-<div class="slide-counter"><span id="counter-current">1</span> / <span id="counter-total">13</span></div>
+<div class="slide-counter"><span id="counter-current">1</span> / <span id="counter-total">18</span></div>
 
 <!-- Navigation -->
 <script>
