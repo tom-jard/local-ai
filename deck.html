@@ -881,17 +881,17 @@ aside.notes { display: none; }
             <div class="icon-badge blue">&#x1F4A7;</div>
             <div>
                 <div class="stat-large">6.4 billion liters</div>
-                <p class="stat-context">Microsoft's water consumption in 2023</p>
+                <p class="stat-context">A single major cloud provider's water use in 2023</p>
                 <p class="stat-context">About a year's home water use for <strong>55,000 people</strong></p>
                 <div class="highlight-box" style="max-width: 560px;">
                     <p><span class="accent" style="font-weight: 600;">+34% in one year</span>, driven largely by AI workloads</p>
                 </div>
-                <p class="source">Source: Microsoft 2023 Environmental Sustainability Report</p>
+                <p class="source">Source: 2023 Corporate Environmental Sustainability Report</p>
             </div>
         </div>
     </div>
     <aside class="notes">
-        "Training and running AI models requires water for cooling. Microsoft used 6.4 billion liters of water in 2023."
+        "Training and running AI models requires water for cooling. A single major cloud provider used 6.4 billion liters of water in 2023."
         "That's about a year's home water use for 55,000 people."
         Pause. Let the number land. "That's a 34% jump in a single year, largely because of AI."
         "At the scale of millions of prompts, even small questions add up."
@@ -1239,51 +1239,81 @@ aside.notes { display: none; }
     <div class="slide-header">
         <div class="slide-label">What We'll Do</div>
         <h2>What we're about to do today</h2>
-        <div class="subtitle">The hands-on part is simple.</div>
+        <div class="subtitle">One setup goal, one useful task, one shared win.</div>
     </div>
     <div class="slide-body">
         <div class="two-col" style="gap: 20px;">
             <div class="content-block" style="padding: 24px 28px;">
-                <h3>1. Scan the guide</h3>
-                <p style="margin-top: 8px; font-size: 19px;">You do not need to memorize anything. The setup steps are all there.</p>
+                <h3>1. Pair up</h3>
+                <p style="margin-top: 8px; font-size: 19px;">Work in groups of 2 or 3 so every group has one phone and one laptop in play.</p>
             </div>
             <div class="content-block" style="padding: 24px 28px;">
-                <h3>2. Install the Ollama app</h3>
-                <p style="margin-top: 8px; font-size: 19px;">Mac and Windows both work. We just need one working machine per pair.</p>
+                <h3>2. Scan the guide</h3>
+                <p style="margin-top: 8px; font-size: 19px;">One person follows the mobile checklist while the other person does the steps on the computer.</p>
             </div>
             <div class="content-block" style="padding: 24px 28px;">
-                <h3>3. Open the app and try one model</h3>
-                <p style="margin-top: 8px; font-size: 19px;">We'll start with <span class="accent" style="font-weight: 600;">llama3.2</span> so everyone gets a baseline success.</p>
+                <h3>3. Get one model working</h3>
+                <p style="margin-top: 8px; font-size: 19px;">Install the Ollama app, pick a model from the library, and ask it one question.</p>
             </div>
             <div class="content-block" style="padding: 24px 28px;">
-                <h3>4. Make one useful thing</h3>
-                <p style="margin-top: 8px; font-size: 19px;">A study guide, reflection questions, or a small sustainability action plan.</p>
+                <h3>4. Make something useful</h3>
+                <p style="margin-top: 8px; font-size: 19px;">Use local AI for a study guide, reflection questions, or a sustainability plan.</p>
             </div>
         </div>
         <div class="highlight-box build" style="max-width: 760px; margin-top: 20px;">
-            <p>Work in pairs. If one laptop works, your pair is good.</p>
+            <p>Success today is per group, not per person.</p>
         </div>
-        <p style="font-size: 16px; color: var(--gray-light); margin-top: 14px;">We're using <span class="accent" style="font-weight: 600;">Ollama</span> today because it's a simple starting point. Other good local-first tools include <span style="color: var(--black);">LM Studio</span>, <span style="color: var(--black);">Jan</span>, and <span style="color: var(--black);">GPT4All</span>.</p>
     </div>
     <aside class="notes">
         "Before we jump in, here's the whole plan."
-        "Scan the guide, install the Ollama app, try one local model, then make one useful thing for class."
-        "And work in pairs. If one laptop works, your pair is good."
-        "We're using Ollama to keep the room aligned, not because it's the only valid tool."
+        "Get into small groups, use the guide together, get one model working, then use it for something real."
+        "Success today is per group, not per person."
 
         [BUILD 1]
-        "That way we keep the room moving and don't get stuck debugging every machine."
+        "That way we keep the room moving instead of debugging every machine one by one."
 
-        Spoken transition to next section: "Okay. Here's the guide."
+        Spoken transition to next section: "First, get into groups."
     </aside>
 </section>
 
-<!-- ========== SLIDE 14: Get Started ========== -->
+<!-- ========== SLIDE 14: Pair Up ========== -->
 <section class="slide">
     <div class="slide-header">
-        <div class="slide-label">Get Started</div>
-        <h2>Start here</h2>
-        <div class="subtitle">You don't need a CS degree. You need a laptop, curiosity, and a little patience.</div>
+        <div class="slide-label">Workshop Mode</div>
+        <h2>Get into groups of 2 or 3</h2>
+        <div class="subtitle">The fastest setup is one phone and one laptop working together.</div>
+    </div>
+    <div class="slide-body">
+        <div class="two-col" style="gap: 24px; align-items: stretch;">
+            <div class="content-block" style="padding: 28px;">
+                <h3>Group roles</h3>
+                <ul class="benefits-list" style="margin-top: 14px;">
+                    <li><span class="check">&#x2713;</span> One person: mobile navigator</li>
+                    <li><span class="check">&#x2713;</span> One person: laptop driver</li>
+                    <li><span class="check">&#x2713;</span> Optional third person: prompt tester / troubleshooter</li>
+                </ul>
+            </div>
+            <div class="content-block" style="padding: 28px;">
+                <h3>What “done” looks like</h3>
+                <p style="margin-top: 10px; font-size: 19px;">One laptop in your group gets local AI working. Everyone else learns the flow by helping.</p>
+                <p style="font-size: 17px; color: var(--gray); margin-top: 14px;">If one computer fails, switch machines instead of stalling the whole group.</p>
+            </div>
+        </div>
+    </div>
+    <aside class="notes">
+        "Get into groups of two or three."
+        "One person should be on the phone reading the checklist. One person should be on the laptop doing the steps."
+        "If you have a third person, great, they can help troubleshoot or test prompts."
+        Spoken transition: "Okay. Now scan the guide."
+    </aside>
+</section>
+
+<!-- ========== SLIDE 15: Scan The Guide ========== -->
+<section class="slide">
+    <div class="slide-header">
+        <div class="slide-label">Workshop Mode</div>
+        <h2>Scan the guide and work together</h2>
+        <div class="subtitle">Phone in one hand, laptop in the other.</div>
     </div>
     <div class="slide-body">
         <div class="qr-section">
@@ -1291,117 +1321,140 @@ aside.notes { display: none; }
                 <svg width="200" height="200" viewBox="0 0 26.4 26.4" xmlns="http://www.w3.org/2000/svg"><rect width="26.4" height="26.4" fill="white"/><path d="M1.6,1.6H2.4V2.4H1.6zM2.4,1.6H3.2V2.4H2.4zM3.2,1.6H4V2.4H3.2zM4,1.6H4.8V2.4H4zM4.8,1.6H5.6V2.4H4.8zM5.6,1.6H6.4V2.4H5.6zM6.4,1.6H7.2V2.4H6.4zM8,1.6H8.8V2.4H8zM9.6,1.6H10.4V2.4H9.6zM10.4,1.6H11.2V2.4H10.4zM11.2,1.6H12V2.4H11.2zM12.8,1.6H13.6V2.4H12.8zM16,1.6H16.8V2.4H16zM19.2,1.6H20V2.4H19.2zM20,1.6H20.8V2.4H20zM20.8,1.6H21.6V2.4H20.8zM21.6,1.6H22.4V2.4H21.6zM22.4,1.6H23.2V2.4H22.4zM23.2,1.6H24V2.4H23.2zM24,1.6H24.8V2.4H24zM1.6,2.4H2.4V3.2H1.6zM6.4,2.4H7.2V3.2H6.4zM14.4,2.4H15.2V3.2H14.4zM15.2,2.4H16V3.2H15.2zM16,2.4H16.8V3.2H16zM16.8,2.4H17.6V3.2H16.8zM19.2,2.4H20V3.2H19.2zM24,2.4H24.8V3.2H24zM1.6,3.2H2.4V4H1.6zM3.2,3.2H4V4H3.2zM4,3.2H4.8V4H4zM4.8,3.2H5.6V4H4.8zM6.4,3.2H7.2V4H6.4zM8.8,3.2H9.6V4H8.8zM10.4,3.2H11.2V4H10.4zM11.2,3.2H12V4H11.2zM12,3.2H12.8V4H12zM15.2,3.2H16V4H15.2zM17.6,3.2H18.4V4H17.6zM19.2,3.2H20V4H19.2zM20.8,3.2H21.6V4H20.8zM21.6,3.2H22.4V4H21.6zM22.4,3.2H23.2V4H22.4zM24,3.2H24.8V4H24zM1.6,4H2.4V4.8H1.6zM3.2,4H4V4.8H3.2zM4,4H4.8V4.8H4zM4.8,4H5.6V4.8H4.8zM6.4,4H7.2V4.8H6.4zM8,4H8.8V4.8H8zM8.8,4H9.6V4.8H8.8zM9.6,4H10.4V4.8H9.6zM12.8,4H13.6V4.8H12.8zM14.4,4H15.2V4.8H14.4zM17.6,4H18.4V4.8H17.6zM19.2,4H20V4.8H19.2zM20.8,4H21.6V4.8H20.8zM21.6,4H22.4V4.8H21.6zM22.4,4H23.2V4.8H22.4zM24,4H24.8V4.8H24zM1.6,4.8H2.4V5.6H1.6zM3.2,4.8H4V5.6H3.2zM4,4.8H4.8V5.6H4zM4.8,4.8H5.6V5.6H4.8zM6.4,4.8H7.2V5.6H6.4zM8,4.8H8.8V5.6H8zM8.8,4.8H9.6V5.6H8.8zM9.6,4.8H10.4V5.6H9.6zM11.2,4.8H12V5.6H11.2zM12,4.8H12.8V5.6H12zM12.8,4.8H13.6V5.6H12.8zM13.6,4.8H14.4V5.6H13.6zM15.2,4.8H16V5.6H15.2zM16,4.8H16.8V5.6H16zM19.2,4.8H20V5.6H19.2zM20.8,4.8H21.6V5.6H20.8zM21.6,4.8H22.4V5.6H21.6zM22.4,4.8H23.2V5.6H22.4zM24,4.8H24.8V5.6H24zM1.6,5.6H2.4V6.4H1.6zM6.4,5.6H7.2V6.4H6.4zM8,5.6H8.8V6.4H8zM9.6,5.6H10.4V6.4H9.6zM11.2,5.6H12V6.4H11.2zM12,5.6H12.8V6.4H12zM12.8,5.6H13.6V6.4H12.8zM14.4,5.6H15.2V6.4H14.4zM15.2,5.6H16V6.4H15.2zM16.8,5.6H17.6V6.4H16.8zM17.6,5.6H18.4V6.4H17.6zM19.2,5.6H20V6.4H19.2zM24,5.6H24.8V6.4H24zM1.6,6.4H2.4V7.2H1.6zM2.4,6.4H3.2V7.2H2.4zM3.2,6.4H4V7.2H3.2zM4,6.4H4.8V7.2H4zM4.8,6.4H5.6V7.2H4.8zM5.6,6.4H6.4V7.2H5.6zM6.4,6.4H7.2V7.2H6.4zM8,6.4H8.8V7.2H8zM9.6,6.4H10.4V7.2H9.6zM11.2,6.4H12V7.2H11.2zM12.8,6.4H13.6V7.2H12.8zM14.4,6.4H15.2V7.2H14.4zM16,6.4H16.8V7.2H16zM17.6,6.4H18.4V7.2H17.6zM19.2,6.4H20V7.2H19.2zM20,6.4H20.8V7.2H20zM20.8,6.4H21.6V7.2H20.8zM21.6,6.4H22.4V7.2H21.6zM22.4,6.4H23.2V7.2H22.4zM23.2,6.4H24V7.2H23.2zM24,6.4H24.8V7.2H24zM8,7.2H8.8V8H8zM8.8,7.2H9.6V8H8.8zM10.4,7.2H11.2V8H10.4zM12.8,7.2H13.6V8H12.8zM13.6,7.2H14.4V8H13.6zM14.4,7.2H15.2V8H14.4zM15.2,7.2H16V8H15.2zM1.6,8H2.4V8.8H1.6zM4.8,8H5.6V8.8H4.8zM6.4,8H7.2V8.8H6.4zM7.2,8H8V8.8H7.2zM8,8H8.8V8.8H8zM10.4,8H11.2V8.8H10.4zM12,8H12.8V8.8H12zM12.8,8H13.6V8.8H12.8zM13.6,8H14.4V8.8H13.6zM15.2,8H16V8.8H15.2zM17.6,8H18.4V8.8H17.6zM18.4,8H19.2V8.8H18.4zM19.2,8H20V8.8H19.2zM20,8H20.8V8.8H20zM20.8,8H21.6V8.8H20.8zM21.6,8H22.4V8.8H21.6zM24,8H24.8V8.8H24zM2.4,8.8H3.2V9.6H2.4zM4,8.8H4.8V9.6H4zM4.8,8.8H5.6V9.6H4.8zM5.6,8.8H6.4V9.6H5.6zM7.2,8.8H8V9.6H7.2zM8,8.8H8.8V9.6H8zM8.8,8.8H9.6V9.6H8.8zM9.6,8.8H10.4V9.6H9.6zM13.6,8.8H14.4V9.6H13.6zM14.4,8.8H15.2V9.6H14.4zM15.2,8.8H16V9.6H15.2zM16,8.8H16.8V9.6H16zM19.2,8.8H20V9.6H19.2zM20,8.8H20.8V9.6H20zM20.8,8.8H21.6V9.6H20.8zM21.6,8.8H22.4V9.6H21.6zM22.4,8.8H23.2V9.6H22.4zM23.2,8.8H24V9.6H23.2zM24,8.8H24.8V9.6H24zM1.6,9.6H2.4V10.4H1.6zM3.2,9.6H4V10.4H3.2zM4,9.6H4.8V10.4H4zM6.4,9.6H7.2V10.4H6.4zM7.2,9.6H8V10.4H7.2zM9.6,9.6H10.4V10.4H9.6zM11.2,9.6H12V10.4H11.2zM12,9.6H12.8V10.4H12zM12.8,9.6H13.6V10.4H12.8zM13.6,9.6H14.4V10.4H13.6zM15.2,9.6H16V10.4H15.2zM18.4,9.6H19.2V10.4H18.4zM24,9.6H24.8V10.4H24zM1.6,10.4H2.4V11.2H1.6zM4.8,10.4H5.6V11.2H4.8zM7.2,10.4H8V11.2H7.2zM12,10.4H12.8V11.2H12zM13.6,10.4H14.4V11.2H13.6zM14.4,10.4H15.2V11.2H14.4zM15.2,10.4H16V11.2H15.2zM16,10.4H16.8V11.2H16zM17.6,10.4H18.4V11.2H17.6zM18.4,10.4H19.2V11.2H18.4zM20.8,10.4H21.6V11.2H20.8zM21.6,10.4H22.4V11.2H21.6zM23.2,10.4H24V11.2H23.2zM24,10.4H24.8V11.2H24zM2.4,11.2H3.2V12H2.4zM3.2,11.2H4V12H3.2zM5.6,11.2H6.4V12H5.6zM6.4,11.2H7.2V12H6.4zM7.2,11.2H8V12H7.2zM8,11.2H8.8V12H8zM9.6,11.2H10.4V12H9.6zM10.4,11.2H11.2V12H10.4zM11.2,11.2H12V12H11.2zM12,11.2H12.8V12H12zM15.2,11.2H16V12H15.2zM16.8,11.2H17.6V12H16.8zM18.4,11.2H19.2V12H18.4zM23.2,11.2H24V12H23.2zM3.2,12H4V12.8H3.2zM4.8,12H5.6V12.8H4.8zM5.6,12H6.4V12.8H5.6zM8.8,12H9.6V12.8H8.8zM9.6,12H10.4V12.8H9.6zM10.4,12H11.2V12.8H10.4zM11.2,12H12V12.8H11.2zM12,12H12.8V12.8H12zM12.8,12H13.6V12.8H12.8zM13.6,12H14.4V12.8H13.6zM14.4,12H15.2V12.8H14.4zM15.2,12H16V12.8H15.2zM16,12H16.8V12.8H16zM19.2,12H20V12.8H19.2zM20.8,12H21.6V12.8H20.8zM21.6,12H22.4V12.8H21.6zM22.4,12H23.2V12.8H22.4zM23.2,12H24V12.8H23.2zM24,12H24.8V12.8H24zM2.4,12.8H3.2V13.6H2.4zM3.2,12.8H4V13.6H3.2zM4.8,12.8H5.6V13.6H4.8zM6.4,12.8H7.2V13.6H6.4zM8,12.8H8.8V13.6H8zM8.8,12.8H9.6V13.6H8.8zM9.6,12.8H10.4V13.6H9.6zM13.6,12.8H14.4V13.6H13.6zM16,12.8H16.8V13.6H16zM17.6,12.8H18.4V13.6H17.6zM18.4,12.8H19.2V13.6H18.4zM19.2,12.8H20V13.6H19.2zM21.6,12.8H22.4V13.6H21.6zM22.4,12.8H23.2V13.6H22.4zM24,12.8H24.8V13.6H24zM3.2,13.6H4V14.4H3.2zM4,13.6H4.8V14.4H4zM4.8,13.6H5.6V14.4H4.8zM7.2,13.6H8V14.4H7.2zM9.6,13.6H10.4V14.4H9.6zM10.4,13.6H11.2V14.4H10.4zM11.2,13.6H12V14.4H11.2zM12.8,13.6H13.6V14.4H12.8zM13.6,13.6H14.4V14.4H13.6zM15.2,13.6H16V14.4H15.2zM16,13.6H16.8V14.4H16zM19.2,13.6H20V14.4H19.2zM20.8,13.6H21.6V14.4H20.8zM23.2,13.6H24V14.4H23.2zM24,13.6H24.8V14.4H24zM3.2,14.4H4V15.2H3.2zM5.6,14.4H6.4V15.2H5.6zM6.4,14.4H7.2V15.2H6.4zM9.6,14.4H10.4V15.2H9.6zM11.2,14.4H12V15.2H11.2zM12,14.4H12.8V15.2H12zM12.8,14.4H13.6V15.2H12.8zM13.6,14.4H14.4V15.2H13.6zM15.2,14.4H16V15.2H15.2zM16,14.4H16.8V15.2H16zM17.6,14.4H18.4V15.2H17.6zM18.4,14.4H19.2V15.2H18.4zM23.2,14.4H24V15.2H23.2zM1.6,15.2H2.4V16H1.6zM3.2,15.2H4V16H3.2zM4,15.2H4.8V16H4zM4.8,15.2H5.6V16H4.8zM5.6,15.2H6.4V16H5.6zM9.6,15.2H10.4V16H9.6zM11.2,15.2H12V16H11.2zM13.6,15.2H14.4V16H13.6zM15.2,15.2H16V16H15.2zM16,15.2H16.8V16H16zM18.4,15.2H19.2V16H18.4zM19.2,15.2H20V16H19.2zM20,15.2H20.8V16H20zM20.8,15.2H21.6V16H20.8zM21.6,15.2H22.4V16H21.6zM23.2,15.2H24V16H23.2zM24,15.2H24.8V16H24zM5.6,16H6.4V16.8H5.6zM6.4,16H7.2V16.8H6.4zM8,16H8.8V16.8H8zM8.8,16H9.6V16.8H8.8zM10.4,16H11.2V16.8H10.4zM11.2,16H12V16.8H11.2zM12,16H12.8V16.8H12zM12.8,16H13.6V16.8H12.8zM13.6,16H14.4V16.8H13.6zM14.4,16H15.2V16.8H14.4zM16,16H16.8V16.8H16zM17.6,16H18.4V16.8H17.6zM18.4,16H19.2V16.8H18.4zM19.2,16H20V16.8H19.2zM20.8,16H21.6V16.8H20.8zM22.4,16H23.2V16.8H22.4zM24,16H24.8V16.8H24zM3.2,16.8H4V17.6H3.2zM4,16.8H4.8V17.6H4zM4.8,16.8H5.6V17.6H4.8zM5.6,16.8H6.4V17.6H5.6zM7.2,16.8H8V17.6H7.2zM8,16.8H8.8V17.6H8zM8.8,16.8H9.6V17.6H8.8zM9.6,16.8H10.4V17.6H9.6zM10.4,16.8H11.2V17.6H10.4zM11.2,16.8H12V17.6H11.2zM12,16.8H12.8V17.6H12zM13.6,16.8H14.4V17.6H13.6zM15.2,16.8H16V17.6H15.2zM16,16.8H16.8V17.6H16zM16.8,16.8H17.6V17.6H16.8zM17.6,16.8H18.4V17.6H17.6zM18.4,16.8H19.2V17.6H18.4zM20.8,16.8H21.6V17.6H20.8zM23.2,16.8H24V17.6H23.2zM24,16.8H24.8V17.6H24zM1.6,17.6H2.4V18.4H1.6zM2.4,17.6H3.2V18.4H2.4zM3.2,17.6H4V18.4H3.2zM4,17.6H4.8V18.4H4zM6.4,17.6H7.2V18.4H6.4zM7.2,17.6H8V18.4H7.2zM8,17.6H8.8V18.4H8zM10.4,17.6H11.2V18.4H10.4zM12,17.6H12.8V18.4H12zM13.6,17.6H14.4V18.4H13.6zM15.2,17.6H16V18.4H15.2zM16.8,17.6H17.6V18.4H16.8zM17.6,17.6H18.4V18.4H17.6zM18.4,17.6H19.2V18.4H18.4zM19.2,17.6H20V18.4H19.2zM20,17.6H20.8V18.4H20zM20.8,17.6H21.6V18.4H20.8zM21.6,17.6H22.4V18.4H21.6zM24,17.6H24.8V18.4H24zM8,18.4H8.8V19.2H8zM9.6,18.4H10.4V19.2H9.6zM12,18.4H12.8V19.2H12zM12.8,18.4H13.6V19.2H12.8zM13.6,18.4H14.4V19.2H13.6zM14.4,18.4H15.2V19.2H14.4zM15.2,18.4H16V19.2H15.2zM16,18.4H16.8V19.2H16zM16.8,18.4H17.6V19.2H16.8zM17.6,18.4H18.4V19.2H17.6zM20.8,18.4H21.6V19.2H20.8zM24,18.4H24.8V19.2H24zM1.6,19.2H2.4V20H1.6zM2.4,19.2H3.2V20H2.4zM3.2,19.2H4V20H3.2zM4,19.2H4.8V20H4zM4.8,19.2H5.6V20H4.8zM5.6,19.2H6.4V20H5.6zM6.4,19.2H7.2V20H6.4zM8,19.2H8.8V20H8zM8.8,19.2H9.6V20H8.8zM10.4,19.2H11.2V20H10.4zM13.6,19.2H14.4V20H13.6zM15.2,19.2H16V20H15.2zM16,19.2H16.8V20H16zM16.8,19.2H17.6V20H16.8zM17.6,19.2H18.4V20H17.6zM19.2,19.2H20V20H19.2zM20.8,19.2H21.6V20H20.8zM21.6,19.2H22.4V20H21.6zM22.4,19.2H23.2V20H22.4zM24,19.2H24.8V20H24zM1.6,20H2.4V20.8H1.6zM6.4,20H7.2V20.8H6.4zM8.8,20H9.6V20.8H8.8zM10.4,20H11.2V20.8H10.4zM12.8,20H13.6V20.8H12.8zM13.6,20H14.4V20.8H13.6zM14.4,20H15.2V20.8H14.4zM15.2,20H16V20.8H15.2zM16.8,20H17.6V20.8H16.8zM17.6,20H18.4V20.8H17.6zM20.8,20H21.6V20.8H20.8zM23.2,20H24V20.8H23.2zM24,20H24.8V20.8H24zM1.6,20.8H2.4V21.6H1.6zM3.2,20.8H4V21.6H3.2zM4,20.8H4.8V21.6H4zM4.8,20.8H5.6V21.6H4.8zM6.4,20.8H7.2V21.6H6.4zM8,20.8H8.8V21.6H8zM8.8,20.8H9.6V21.6H8.8zM9.6,20.8H10.4V21.6H9.6zM10.4,20.8H11.2V21.6H10.4zM11.2,20.8H12V21.6H11.2zM12,20.8H12.8V21.6H12zM12.8,20.8H13.6V21.6H12.8zM15.2,20.8H16V21.6H15.2zM16.8,20.8H17.6V21.6H16.8zM17.6,20.8H18.4V21.6H17.6zM18.4,20.8H19.2V21.6H18.4zM19.2,20.8H20V21.6H19.2zM20,20.8H20.8V21.6H20zM20.8,20.8H21.6V21.6H20.8zM21.6,20.8H22.4V21.6H21.6zM23.2,20.8H24V21.6H23.2zM1.6,21.6H2.4V22.4H1.6zM3.2,21.6H4V22.4H3.2zM4,21.6H4.8V22.4H4zM4.8,21.6H5.6V22.4H4.8zM6.4,21.6H7.2V22.4H6.4zM8.8,21.6H9.6V22.4H8.8zM10.4,21.6H11.2V22.4H10.4zM12,21.6H12.8V22.4H12zM13.6,21.6H14.4V22.4H13.6zM14.4,21.6H15.2V22.4H14.4zM15.2,21.6H16V22.4H15.2zM16,21.6H16.8V22.4H16zM16.8,21.6H17.6V22.4H16.8zM18.4,21.6H19.2V22.4H18.4zM24,21.6H24.8V22.4H24zM1.6,22.4H2.4V23.2H1.6zM3.2,22.4H4V23.2H3.2zM4,22.4H4.8V23.2H4zM4.8,22.4H5.6V23.2H4.8zM6.4,22.4H7.2V23.2H6.4zM10.4,22.4H11.2V23.2H10.4zM11.2,22.4H12V23.2H11.2zM12.8,22.4H13.6V23.2H12.8zM13.6,22.4H14.4V23.2H13.6zM16,22.4H16.8V23.2H16zM16.8,22.4H17.6V23.2H16.8zM17.6,22.4H18.4V23.2H17.6zM18.4,22.4H19.2V23.2H18.4zM21.6,22.4H22.4V23.2H21.6zM22.4,22.4H23.2V23.2H22.4zM23.2,22.4H24V23.2H23.2zM24,22.4H24.8V23.2H24zM1.6,23.2H2.4V24H1.6zM6.4,23.2H7.2V24H6.4zM9.6,23.2H10.4V24H9.6zM10.4,23.2H11.2V24H10.4zM11.2,23.2H12V24H11.2zM12.8,23.2H13.6V24H12.8zM14.4,23.2H15.2V24H14.4zM15.2,23.2H16V24H15.2zM16,23.2H16.8V24H16zM17.6,23.2H18.4V24H17.6zM19.2,23.2H20V24H19.2zM20,23.2H20.8V24H20zM21.6,23.2H22.4V24H21.6zM23.2,23.2H24V24H23.2zM24,23.2H24.8V24H24zM1.6,24H2.4V24.8H1.6zM2.4,24H3.2V24.8H2.4zM3.2,24H4V24.8H3.2zM4,24H4.8V24.8H4zM4.8,24H5.6V24.8H4.8zM5.6,24H6.4V24.8H5.6zM6.4,24H7.2V24.8H6.4zM8,24H8.8V24.8H8zM8.8,24H9.6V24.8H8.8zM10.4,24H11.2V24.8H10.4zM15.2,24H16V24.8H15.2zM16.8,24H17.6V24.8H16.8zM17.6,24H18.4V24.8H17.6zM20,24H20.8V24.8H20zM20.8,24H21.6V24.8H20.8zM23.2,24H24V24.8H23.2z" fill="#1d1d1f"/></svg>
             </div>
             <div class="qr-info">
-                <h3>Step-by-step guide</h3>
-                <p>Install the Ollama app on Mac or Windows</p>
-                <p>Open chat and try <strong style="color: var(--black);">llama3.2</strong></p>
-                <p>Follow example prompts and task ideas</p>
-                <div class="terminal" style="margin-top: 20px;">
-                    <span class="prompt">$ </span><span class="cmd">optional terminal path: ollama run llama3.2</span>
-                </div>
-                <p style="font-size: 17px; color: var(--gray); margin-top: 12px;">The app is the default path today. If you like the terminal, the guide includes that too.</p>
-                <p style="font-size: 15px; color: var(--gray-light); margin-top: 8px;">Other local-first apps exist too: LM Studio, Jan, GPT4All. We're standardizing on one tool for class so setup is manageable.</p>
-                <div class="connect">
-                    <p style="font-weight: 600; color: var(--black);">Thomas Jardine</p>
-                    <p style="font-size: 17px;">Connect on LinkedIn &middot; Let's keep talking</p>
-                </div>
+                <h3>How to use the guide</h3>
+                <p>Phone person: read the checklist out loud</p>
+                <p>Laptop person: do the install steps</p>
+                <p>Ask for help quickly if your group stalls</p>
+                <p style="font-size: 15px; color: var(--gray-light); margin-top: 14px;">We're using Ollama today because it's a simple standard path. <a href="https://lmstudio.ai" style="color: var(--gray-light);">LM Studio</a> is another great option with a polished desktop interface. One shared tool keeps the room manageable.</p>
             </div>
         </div>
     </div>
     <aside class="notes">
-        "You don't need a CS degree. You don't need to work at Apple. You need a laptop and curiosity."
-        "I put together a one-page guide. Install instructions, what to try first, and some ideas for what to build."
-        "Scan it now. We're about to start."
+        "Scan this now."
         Give them 15-20 seconds to actually scan.
-        "Mac and Windows. Everything's in there."
-        "Pair up with someone near you. If one laptop works, that's enough."
-        "The app is the default path today. And if you like the terminal, there's a one-command path too."
-        "There are other good tools in this space. I'm using one here so the room doesn't fragment."
-        Spoken transition: "Once you've scanned it, here's the rule if anything goes sideways."
+        "Phone person: read the checklist. Laptop person: do the steps."
+        "If your group stalls, raise a hand quickly so we can unblock you."
+        Spoken transition: "Once you've scanned it, this is your only goal."
     </aside>
 </section>
 
-<!-- ========== SLIDE 15: If You're Stuck ========== -->
+<!-- ========== SLIDE 16: First Goal ========== -->
 <section class="slide">
     <div class="slide-header">
-        <div class="slide-label">Workshop Mode</div>
-        <h2>If you get stuck</h2>
-        <div class="subtitle">Do not stall out alone. Keep moving with the room.</div>
-    </div>
-    <div class="slide-body">
-        <div class="two-col" style="gap: 24px; align-items: stretch;">
-            <div class="content-block" style="padding: 28px;">
-                <h3>Default move</h3>
-                <ul class="benefits-list" style="margin-top: 14px;">
-                    <li><span class="check">&#x2713;</span> Pair up with someone nearby</li>
-                    <li><span class="check">&#x2713;</span> One working laptop per pair is enough</li>
-                    <li><span class="check">&#x2713;</span> Ask for help before you burn 10 minutes</li>
-                </ul>
-            </div>
-            <div class="content-block" style="padding: 28px;">
-                <h3>Goal for this block</h3>
-                <p style="margin-top: 10px; font-size: 19px;">Get the Ollama app open and see <span class="accent" style="font-weight: 600;">llama3.2</span> answer one message.</p>
-                <p style="font-size: 17px; color: var(--gray); margin-top: 14px;">If you prefer the CLI, you can still run <code>ollama run llama3.2</code>. If your machine is slow or the install fails, switch to your partner's laptop and keep going.</p>
-            </div>
-        </div>
-        <div class="highlight-box build" style="max-width: 820px; margin-top: 20px;">
-            <p>Success today is per pair, not per person.</p>
-        </div>
-    </div>
-    <aside class="notes">
-        "A few machines will be weird. That's normal."
-        "Don't stall out alone. Pair up, ask for help, and keep the room moving."
-        "The goal for this block is simple: get the Ollama app open and see llama3.2 answer one message."
-        "If someone prefers the terminal, fine, but that's not the requirement."
-
-        [BUILD 1]
-        "Success today is per pair, not per person."
-        Spoken transition: "Once you have that working, here's what I want you to make."
-    </aside>
-</section>
-
-<!-- ========== SLIDE 16: Pick One Task ========== -->
-<section class="slide">
-    <div class="slide-header">
-        <div class="slide-label">Workshop Prompt</div>
-        <h2>Pick one task</h2>
-        <div class="subtitle">Use local AI to make one useful thing for class or your life.</div>
+        <div class="slide-label">Workshop Goal</div>
+        <h2>First goal: get local AI responding</h2>
+        <div class="subtitle">This is the screen to keep up while everyone sets up.</div>
     </div>
     <div class="slide-body">
         <div class="two-col" style="gap: 20px;">
             <div class="content-block" style="padding: 24px 28px;">
-                <h3>Study guide</h3>
-                <p style="margin-top: 8px; font-size: 19px;">Paste in notes or a reading and ask for a short study guide in plain English.</p>
+                <h3>Do this in order</h3>
+                <ul class="benefits-list" style="margin-top: 14px;">
+                    <li><span class="check">&#x2713;</span> Install the Ollama app</li>
+                    <li><span class="check">&#x2713;</span> Download a model from the guide</li>
+                    <li><span class="check">&#x2713;</span> Ask one question and get one answer</li>
+                </ul>
             </div>
             <div class="content-block" style="padding: 24px 28px;">
-                <h3>Reflection questions</h3>
-                <p style="margin-top: 8px; font-size: 19px;">Generate three thoughtful questions you could bring to class discussion.</p>
-            </div>
-            <div class="content-block" style="padding: 24px 28px;">
-                <h3>Sustainability plan</h3>
-                <p style="margin-top: 8px; font-size: 19px;">Make a one-week action plan that actually fits student life.</p>
-            </div>
-            <div class="content-block" style="padding: 24px 28px;">
-                <h3>Explain a concept</h3>
-                <p style="margin-top: 8px; font-size: 19px;">Ask it to explain one course idea simply, then ask follow-up questions.</p>
+                <h3>Good first questions</h3>
+                <p style="margin-top: 8px; font-size: 19px;">"What is local AI?"</p>
+                <p style="margin-top: 6px; font-size: 19px;">"Summarize one idea from this class in plain English."</p>
+                <p style="margin-top: 6px; font-size: 19px;">"Give me 3 questions about sustainability and self-care."</p>
             </div>
         </div>
-        <div class="highlight-box build" style="max-width: 900px; margin-top: 18px;">
-            <p>Good first prompt: "Summarize this reading in plain language and give me 3 study questions."</p>
+        <div class="highlight-box build" style="max-width: 860px; margin-top: 20px;">
+            <p>If your group gets stuck, switch laptops or ask for help. Do not spend 15 minutes debugging alone.</p>
         </div>
     </div>
     <aside class="notes">
-        "Once you have a model running, don't overthink the assignment."
-        "Pick one useful thing: a study guide, reflection questions, a sustainability plan, or help understanding a concept."
+        "This is the only goal for the setup block."
+        "Install Ollama, pick a model from the guide, and ask it one question."
+        "If you get stuck, switch machines or raise a hand. Don't get trapped debugging."
 
         [BUILD 1]
-        "If you want a starting point, use this prompt exactly and then adapt it to your class."
+        "Once most groups have a response on screen, we'll move to the actual assignment."
+    </aside>
+</section>
+
+<!-- ========== SLIDE 17: Use It For Something Real ========== -->
+<section class="slide">
+    <div class="slide-header">
+        <div class="slide-label">Workshop Prompt</div>
+        <h2>Now use it for something real</h2>
+        <div class="subtitle">Make one useful artifact first. Bonus tools can wait.</div>
+    </div>
+    <div class="slide-body">
+        <div class="two-col" style="gap: 20px;">
+            <div class="content-block" style="padding: 24px 28px;">
+                <h3>Main assignment</h3>
+                <ul class="benefits-list" style="margin-top: 14px;">
+                    <li><span class="check">&#x2713;</span> Make a study guide for a reading</li>
+                    <li><span class="check">&#x2713;</span> Generate 3 reflection questions</li>
+                    <li><span class="check">&#x2713;</span> Draft a 1-week sustainability plan</li>
+                    <li><span class="check">&#x2713;</span> Explain one course concept simply</li>
+                </ul>
+                <div class="highlight-box" style="max-width: 100%; margin-top: 18px;">
+                    <p>Good fallback prompt: "Summarize this reading in plain language and give me 3 study questions."</p>
+                </div>
+            </div>
+            <div class="content-block build" style="padding: 24px 28px;">
+                <h3>Bonus zone, only if that was easy</h3>
+                <p style="margin-top: 8px; font-size: 19px;">Try one agent-style tool:</p>
+                <p style="margin-top: 10px; font-size: 18px;"><span class="accent" style="font-weight: 600;">Pi</span> or <span class="accent" style="font-weight: 600;">OpenClaw</span> for assistant workflows</p>
+                <p style="margin-top: 8px; font-size: 18px;"><span class="accent" style="font-weight: 600;">OpenCode</span> for more capable agent workflows across writing, planning, research, editing, and coding</p>
+                <p style="font-size: 16px; color: var(--gray); margin-top: 14px;">Smoother agent experiences may require Ollama sign-in and hosted cloud models. Useful, but not the pure local/offline path we focused on in class.</p>
+            </div>
+        </div>
+    </div>
+    <aside class="notes">
+        "Now that you have a model responding, use it for something real."
+        "Do the main assignment first. Make one useful thing before you chase agent tools."
+
+        [BUILD 1]
+        "If your group finishes early and wants to explore, here's the bonus zone."
+        "But be honest about the tradeoff: the smoother agent experience may require Ollama sign-in and hosted models, so that's no longer the pure local path."
+    </aside>
+</section>
+
+<!-- ========== SLIDE 18: Shape What AI Becomes ========== -->
+<section class="slide">
+    <div class="slide-header">
+        <div class="slide-label">Closing Thought</div>
+        <h2>You can help shape what AI becomes</h2>
+        <div class="subtitle">Not just by using it, but by choosing what kind of AI deserves to exist.</div>
+    </div>
+    <div class="slide-body">
+        <div class="highlight-box" style="max-width: 920px;">
+            <p>More private, cheaper, smaller, and more efficient AI only becomes real if people actually build with it, choose it, and prove it is useful.</p>
+        </div>
+        <div class="two-col" style="gap: 24px; margin-top: 24px;">
+            <div class="content-block" style="padding: 28px;">
+                <h3>What that can look like</h3>
+                <ul class="benefits-list" style="margin-top: 14px;">
+                    <li><span class="check">&#x2713;</span> Choosing local when privacy matters</li>
+                    <li><span class="check">&#x2713;</span> Caring about cost and energy, not just convenience</li>
+                    <li><span class="check">&#x2713;</span> Building things that are actually useful</li>
+                </ul>
+            </div>
+            <div class="content-block" style="padding: 28px;">
+                <h3>What I hope you leave with</h3>
+                <p style="margin-top: 10px; font-size: 20px;">AI is going to shape a lot of your future whether you work in tech or not.</p>
+                <p style="margin-top: 12px; font-size: 20px;">You do not have to only consume it. You can help shape how it gets used.</p>
+            </div>
+        </div>
+    </div>
+    <aside class="notes">
+        "This is the part I actually care about."
+        "AI is going to shape a lot of your future whether you work in tech or not."
+        "You do not have to only consume it. You can help shape how it gets used."
+        "More private, cheaper, smaller, more efficient AI only becomes real if people choose it and build with it."
     </aside>
 </section>
 
 </div><!-- /deck -->
 
 <!-- Slide counter -->
-<div class="slide-counter"><span id="counter-current">1</span> / <span id="counter-total">18</span></div>
+<div class="slide-counter"><span id="counter-current">1</span> / <span id="counter-total">20</span></div>
 
 <!-- Navigation -->
 <script>
